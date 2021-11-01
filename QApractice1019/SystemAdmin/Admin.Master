@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.master.cs" Inherits="QApractice1019.SystemAdmin.Admin" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <h2>簡易問卷大全 - 後台</h2>
+    <table>
+        <tr>
+            <td>
+                <ul style="list-style-type: none">
+                    <li><a href="QAList.aspx">問卷管理</a></li>
+                    <li><a href="QuestionsBank.aspx">常用問題庫</a></li>
+                </ul>
+            </td>
+            <td>
+                <form id="form1" runat="server">
+                    <div>
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
