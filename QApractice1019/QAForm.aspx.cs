@@ -145,7 +145,7 @@ namespace QApractice1019
                             {
                                 if (li.Selected)
                                 {
-                                    ans.Answer += cbxlist.SelectedValue.ToString() + ";";
+                                    ans.Answer += li.Value.ToString() + ";";
                                 }
                             }
                         }
@@ -207,7 +207,7 @@ namespace QApractice1019
                         {
                             if (li.Selected)
                             {
-                                ans.Answer += cbxlist.SelectedValue.ToString() + ";";
+                                ans.Answer += li.Value.ToString() + ";";
                             }
                         }
                     }
