@@ -117,5 +117,24 @@ namespace QA.DBSource
                 return null;
             }
         }
+        public static List<Respondent_answer> GetQAList()
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.Respondent_answer
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
     }
 }

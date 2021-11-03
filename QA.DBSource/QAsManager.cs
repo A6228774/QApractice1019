@@ -276,5 +276,25 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static void DeleteQuestion(int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.QADesign.Where(o => o.QAID == qaid && o.QuestionID == qid).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        context.QADesign.Remove(obj);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+        }
     }
 }
