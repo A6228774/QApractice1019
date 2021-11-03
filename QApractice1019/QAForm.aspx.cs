@@ -29,7 +29,7 @@ namespace QApractice1019
 
                 var qadesign = QAsManager.GetQAForm(qaid); //取得該問卷中的問題
 
-                if (today < qaformInfo.StartDate && today > qaformInfo.EndDate)
+                if (today < qaformInfo.StartDate || today > qaformInfo.EndDate)
                 {
                     this.submit_btn.Enabled = false;
                 }
