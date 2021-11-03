@@ -117,7 +117,7 @@ namespace QApractice1019
                 info.Email = emailtxt;
                 info.Phone = phonetxt;
                 info.Age = age;
-                RespondentInfoManager.CreateRespodent(info);
+                //RespondentInfoManager.CreateRespodent(info);
 
                 Respondent_answer ans = new Respondent_answer();
 
@@ -166,9 +166,13 @@ namespace QApractice1019
                         }
                     }
 
-                    AnswerManager.CreateRespodent_answer(ans);
+                    //AnswerManager.CreateRespodent_answer(ans);
                 }
-                Response.Redirect("Index.aspx");
+
+                HttpContext.Current.Session["QA_respodent"] = info;
+                HttpContext.Current.Session["QA_answer"] = ans;
+
+                Response.Redirect("QAConfirmPage.aspx?ID=" + qaidtxt);
             }
             else
             {
@@ -185,7 +189,10 @@ namespace QApractice1019
 
                     Save_answer(qaid, qadesign, respondent, ans);
 
-                    Response.Redirect("Index.aspx");
+                    HttpContext.Current.Session["QA_respodent"] = respondent;
+                    HttpContext.Current.Session["QA_answer"] = ans;
+
+                    Response.Redirect("QAConfirmPage.aspx?ID=" + qaidtxt);
                 }
             }
 
@@ -238,7 +245,7 @@ namespace QApractice1019
                     }
                 }
 
-                AnswerManager.CreateRespodent_answer(ans);
+                //AnswerManager.CreateRespodent_answer(ans);
             }
         }
         private bool CheckInput(out List<string> errorMsgList)

@@ -76,6 +76,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Index.aspx" />
+    <Content Include="QAConfirmPage.aspx" />
     <Content Include="QAForm.aspx" />
     <Content Include="Statistics.aspx" />
     <Content Include="SystemAdmin\AnswerDetail.aspx" />
@@ -100,6 +101,13 @@
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QAConfirmPage.aspx.cs">
+      <DependentUpon>QAConfirmPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QAConfirmPage.aspx.designer.cs">
+      <DependentUpon>QAConfirmPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="QAForm.aspx.cs">
       <DependentUpon>QAForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
