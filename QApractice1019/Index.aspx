@@ -18,7 +18,7 @@
                             <tr>
                                 <td>問卷名稱：</td>
                                 <td>
-                                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox></td>
+                                    <asp:TextBox ID="tbx_keyword" runat="server"></asp:TextBox></td>
                             </tr>
                             <tr>
                                 <td>開始/結束：</td>
@@ -27,9 +27,10 @@
                                     <asp:TextBox ID="end_d" runat="server" TextMode="Date"></asp:TextBox>
                                 </td>
                                 <td>
-                                    <asp:Button ID="search_btn" runat="server" Text="檢索" /></td>
+                                    <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" /></td>
                             </tr>
                         </table>
+            <asp:Literal ID="ltlMsg" runat="server" Visible="False"></asp:Literal>
             <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
                     <Columns>
                         <asp:BoundField HeaderText="#" DataField="QAID" />
