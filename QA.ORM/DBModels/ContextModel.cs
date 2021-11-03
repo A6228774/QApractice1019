@@ -22,14 +22,6 @@ namespace QA.ORM.DBModels
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<QuestionsTable>()
-                .Property(e => e.QuestionTitle)
-                .IsFixedLength();
-
-            modelBuilder.Entity<QuestionsTable>()
-                .Property(e => e.QuestionType)
-                .IsFixedLength();
-
-            modelBuilder.Entity<QuestionsTable>()
                 .HasMany(e => e.QADesign)
                 .WithRequired(e => e.QuestionsTable)
                 .WillCascadeOnDelete(false);

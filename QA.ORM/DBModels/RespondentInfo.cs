@@ -25,5 +25,7 @@ namespace QA.ORM.DBModels
         public string Phone { get; set; }
 
         public int Age { get; set; }
+
+        public DateTime? AnswerDate { get; set; }
     }
 }

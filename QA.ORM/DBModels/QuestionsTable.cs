@@ -23,7 +23,7 @@ namespace QA.ORM.DBModels
         public string QuestionTitle { get; set; }
 
         [Required]
-        [StringLength(2)]
+        [StringLength(50)]
         public string QuestionType { get; set; }
 
         public bool MustKey { get; set; }
