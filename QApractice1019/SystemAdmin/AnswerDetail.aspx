@@ -30,4 +30,5 @@
                 </tr>
             </table>
         </asp:Panel>
+    <asp:PlaceHolder ID="ph_question" runat="server"></asp:PlaceHolder>
 </asp:Content>
