@@ -22,7 +22,7 @@
                     <asp:Button ID="search_btn" runat="server" Text="檢索" /></td>
             </tr>
         </table>
-        <asp:Button ID="delete_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要刪除這筆訂單嗎?'</br>'問卷資料將無法復原');" />
+        <asp:Button ID="delete_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要刪除這筆訂單嗎?'</br>'問卷資料將無法復原');" OnClick="delete_btn_Click" />
         <asp:Button ID="new_btn" runat="server" Text="新問卷" OnClick="new_btn_Click" />
         <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="#DEBA84" BorderColor="#DEBA84" BorderStyle="None" BorderWidth="1px" CellPadding="3" CellSpacing="2">
             <Columns>
@@ -44,6 +44,11 @@
                 </asp:TemplateField>
                 <asp:BoundField HeaderText="開始時間" DataField="StartDate" DataFormatString="{0:d}" />
                 <asp:BoundField HeaderText="結束時間" DataField="EndDate" DataFormatString="{0:d}" />
+                <asp:TemplateField HeaderText="回答資料">
+                    <ItemTemplate>
+                        <a href="OutputCSV.aspx">觀看</a>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="觀看統計">
                     <ItemTemplate>
                         <a href="../Statistics.aspx?ID=<%# Eval("QAID") %>">前往</a>

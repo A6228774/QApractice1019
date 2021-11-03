@@ -82,6 +82,13 @@ namespace QApractice1019
         }
         protected void submit_btn_Click(object sender, EventArgs e)
         {
+            List<string> msgList = new List<string>();
+            if (!this.CheckInput(out msgList))
+            {
+                this.ltlMsg.Text = string.Join("<br/>", msgList);
+                return;
+            }
+
             string qaidtxt = this.Request.QueryString["ID"].ToString();
             int qaid = int.Parse(qaidtxt);
 
@@ -159,10 +166,19 @@ namespace QApractice1019
             {
                 var respondent = RespondentInfoManager.GetRespodentInfo(nametxt, emailtxt);
 
-                Respondent_answer ans = new Respondent_answer();
+                if (RespondentInfoManager.GetRespodent_answer(respondent.RespondentID, qaid))
+                {
+                    this.ltlMsg.Text = "<span style='color:red'>此用戶已經回答過本問卷</span>";
+                    return;
+                }
+                else
+                {
+                    Respondent_answer ans = new Respondent_answer();
 
-                Save_answer(qaid, qadesign, respondent, ans);
-                Response.Redirect("Index.aspx");
+                    Save_answer(qaid, qadesign, respondent, ans);
+
+                    Response.Redirect("Index.aspx");
+                }
             }
 
         }
@@ -216,7 +232,33 @@ namespace QApractice1019
                 AnswerManager.CreateRespodent_answer(ans);
             }
         }
+        private bool CheckInput(out List<string> errorMsgList)
+        {
+            List<string> msglist = new List<string>();
 
+            if (string.IsNullOrWhiteSpace(this.tbx_name.Text) || string.IsNullOrEmpty(this.tbx_name.Text))
+                msglist.Add("<span style='color:red'>姓名為必填</span>");
+
+            else if (string.IsNullOrWhiteSpace(this.tbx_age.Text) || string.IsNullOrEmpty(this.tbx_age.Text))
+                msglist.Add("<span style='color:red'>年齡為必填</span>");
+            else if ((int.Parse(this.tbx_age.Text)) > 100)
+                msglist.Add("<span style='color:red'>年齡需少於100</span>");
+
+            else if (string.IsNullOrWhiteSpace(this.tbx_phone.Text) || string.IsNullOrEmpty(this.tbx_phone.Text))
+                msglist.Add("<span style='color:red'>電話為必填</span>");
+            else if (this.tbx_phone.Text.Length != 10)
+                msglist.Add("<span style='color:red'>電話長度應為10碼</span>");
+
+            else if (string.IsNullOrWhiteSpace(this.tbx_email.Text) || string.IsNullOrEmpty(this.tbx_email.Text))
+                msglist.Add("<span style='color:red'>信箱為必填</span>");
+
+            errorMsgList = msglist;
+
+            if (msglist.Count == 0)
+                return true;
+            else
+                return false;
+        }
         private static List<string> Getchoicelist(QuestionsTable question)
         {
             int cid = int.Parse(question.ChoiceID.ToString());

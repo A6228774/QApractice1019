@@ -31,7 +31,10 @@ namespace QApractice1019.SystemAdmin
                 this.ltl_NoData.Visible = true;
             }
         }
+        protected void delete_btn_Click(object sender, EventArgs e)
+        {
 
+        }
         protected void new_btn_Click(object sender, EventArgs e)
         {
             Response.Redirect("QAFormDetail.aspx");
@@ -54,6 +57,5 @@ namespace QApractice1019.SystemAdmin
             int startIndex = (this.GetCurrentPage() - 1) * 10;
             return list.Skip(startIndex).Take(10).ToList();
         }
-
     }
 }

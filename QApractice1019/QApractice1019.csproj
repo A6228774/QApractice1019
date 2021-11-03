@@ -78,6 +78,8 @@
     <Content Include="Index.aspx" />
     <Content Include="QAForm.aspx" />
     <Content Include="Statistics.aspx" />
+    <Content Include="SystemAdmin\AnswerDetail.aspx" />
+    <Content Include="SystemAdmin\OutputCSV.aspx" />
     <Content Include="SystemAdmin\QAFormDesign.aspx" />
     <Content Include="SystemAdmin\QAFormDetail.aspx" />
     <Content Include="SystemAdmin\QAList.aspx" />
@@ -118,6 +120,20 @@
     </Compile>
     <Compile Include="SystemAdmin\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SystemAdmin\AnswerDetail.aspx.cs">
+      <DependentUpon>AnswerDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\AnswerDetail.aspx.designer.cs">
+      <DependentUpon>AnswerDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemAdmin\OutputCSV.aspx.cs">
+      <DependentUpon>OutputCSV.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\OutputCSV.aspx.designer.cs">
+      <DependentUpon>OutputCSV.aspx</DependentUpon>
     </Compile>
     <Compile Include="SystemAdmin\QAFormDesign.aspx.cs">
       <DependentUpon>QAFormDesign.aspx</DependentUpon>

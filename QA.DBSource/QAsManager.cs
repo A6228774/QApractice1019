@@ -28,6 +28,48 @@ namespace QA.DBSource
                 }
             }
         }
+        public static List<CustomizeQA> GetQAListbyKeyword(string keyword)
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.CustomizeQA
+                                 where item.Title.Contains(keyword)
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
+        public static List<CustomizeQA> GetOrdersByDate(DateTime start_t, DateTime end_t)
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    DateTime newend_d = end_t.AddDays(1);
+
+                    var query = (from item in context.CustomizeQA
+                                 where item.EndDate <= newend_d && item.StartDate >= start_t
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
         public static CustomizeQA GetQADetail(int qaid)
         {
             using (ContextModel context = new ContextModel())

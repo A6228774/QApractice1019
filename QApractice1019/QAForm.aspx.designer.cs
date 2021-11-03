@@ -33,6 +33,15 @@ namespace QApractice1019
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// lb_date 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lb_date;
+
+        /// <summary>
         /// lb_summary 控制項。
         /// </summary>
         /// <remarks>
@@ -87,6 +96,15 @@ namespace QApractice1019
         protected global::System.Web.UI.WebControls.TextBox tbx_age;
 
         /// <summary>
+        /// ltl_date 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltl_date;
+
+        /// <summary>
         /// ph_question 控制項。
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace QApractice1019
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder ph_question;
+
+        /// <summary>
+        /// ltlMsg 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltlMsg;
 
         /// <summary>
         /// submit_btn 控制項。
