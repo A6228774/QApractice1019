@@ -119,6 +119,7 @@ namespace QApractice1019
                     ans.RespondentID = guid;
                     ans.QAID = qaid;
                     ans.QuestionID = item.QuestionID;
+                    ans.AnswerDate = DateTime.Now.Date;
 
                     int qid = int.Parse(item.QuestionID.ToString());
                     var question = QAsManager.GetQuestionDetail(qid);
@@ -190,6 +191,7 @@ namespace QApractice1019
                 ans.RespondentID = respondent.RespondentID;
                 ans.QAID = qaid;
                 ans.QuestionID = item.QuestionID;
+                ans.AnswerDate = DateTime.Now.Date;
 
                 int qid = int.Parse(item.QuestionID.ToString());
                 var question = QAsManager.GetQuestionDetail(qid);
