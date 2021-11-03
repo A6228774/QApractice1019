@@ -28,5 +28,7 @@ namespace QA.ORM.DBModels
         [Column(Order = 3)]
         [StringLength(100)]
         public string Answer { get; set; }
+
+        public DateTime? AnswerDate { get; set; }
     }
 }
