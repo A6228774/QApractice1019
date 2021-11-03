@@ -22,62 +22,69 @@ namespace QApractice1019
                 string qaidtxt = this.Request.QueryString["ID"].ToString();
                 int qaid = int.Parse(qaidtxt);
                 var qaformInfo = QAsManager.GetQADetail(qaid);
+                DateTime today = DateTime.Today;
 
                 this.ltl_QAtitle.Text = qaformInfo.Title;
                 this.lb_summary.Text = qaformInfo.Summary;
 
                 var qadesign = QAsManager.GetQAForm(qaid); //取得該問卷中的問題
 
-                foreach (var item in qadesign)
+                if (today < qaformInfo.StartDate && today > qaformInfo.EndDate)
                 {
-                    Panel pnl_question = new Panel();
-                    int qid = int.Parse(item.QuestionID.ToString());
-
-                    var question = QAsManager.GetQuestionDetail(qid);
-
-                    if (question.QuestionType.ToString() == "TB")
+                    this.submit_btn.Enabled = false;
+                }
+                else
+                {
+                    foreach (var item in qadesign)
                     {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        TextBox tbx_ans = new TextBox();
-                        tbx_ans.ID = "tbx_ans" + item.QuestionID;
+                        Panel pnl_question = new Panel();
+                        int qid = int.Parse(item.QuestionID.ToString());
 
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(tbx_ans);
-                        ph_question.Controls.Add(pnl_question);
-                    }
-                    else if (question.QuestionType.ToString() == "RB")
-                    {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        RadioButtonList rb_ans = new RadioButtonList();
-                        rb_ans.ID = "rb_ans" + item.QuestionID;
+                        var question = QAsManager.GetQuestionDetail(qid);
 
-                        List<string> list = Getchoicelist(question);
-                        rb_ans.DataSource = list;
-                        rb_ans.DataBind();
+                        if (question.QuestionType.ToString() == "TB")
+                        {
+                            Literal title = new Literal();
+                            title.Text = question.QuestionTitle;
+                            TextBox tbx_ans = new TextBox();
+                            tbx_ans.ID = "tbx_ans" + item.QuestionID;
 
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(rb_ans);
-                        ph_question.Controls.Add(pnl_question);
-                    }
-                    else if (question.QuestionType.ToString() == "CB")
-                    {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        CheckBoxList cbx_ans = new CheckBoxList();
-                        cbx_ans.ID = "cbx_ans" + item.QuestionID;
+                            pnl_question.Controls.Add(title);
+                            pnl_question.Controls.Add(tbx_ans);
+                            ph_question.Controls.Add(pnl_question);
+                        }
+                        else if (question.QuestionType.ToString() == "RB")
+                        {
+                            Literal title = new Literal();
+                            title.Text = question.QuestionTitle;
+                            RadioButtonList rb_ans = new RadioButtonList();
+                            rb_ans.ID = "rb_ans" + item.QuestionID;
 
-                        List<string> list = Getchoicelist(question);
-                        cbx_ans.DataSource = list;
-                        cbx_ans.DataBind();
+                            List<string> list = Getchoicelist(question);
+                            rb_ans.DataSource = list;
+                            rb_ans.DataBind();
 
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(cbx_ans);
-                        ph_question.Controls.Add(pnl_question);
+                            pnl_question.Controls.Add(title);
+                            pnl_question.Controls.Add(rb_ans);
+                            ph_question.Controls.Add(pnl_question);
+                        }
+                        else if (question.QuestionType.ToString() == "CB")
+                        {
+                            Literal title = new Literal();
+                            title.Text = question.QuestionTitle;
+                            CheckBoxList cbx_ans = new CheckBoxList();
+                            cbx_ans.ID = "cbx_ans" + item.QuestionID;
+
+                            List<string> list = Getchoicelist(question);
+                            cbx_ans.DataSource = list;
+                            cbx_ans.DataBind();
+
+                            pnl_question.Controls.Add(title);
+                            pnl_question.Controls.Add(cbx_ans);
+                            ph_question.Controls.Add(pnl_question);
+                        }
                     }
                 }
-
             }
         }
         protected void submit_btn_Click(object sender, EventArgs e)
@@ -119,7 +126,7 @@ namespace QApractice1019
                     ans.RespondentID = guid;
                     ans.QAID = qaid;
                     ans.QuestionID = item.QuestionID;
-                    ans.AnswerDate = DateTime.Now.Date;
+                    ans.AnswerDate = DateTime.Today;
 
                     int qid = int.Parse(item.QuestionID.ToString());
                     var question = QAsManager.GetQuestionDetail(qid);
@@ -191,7 +198,7 @@ namespace QApractice1019
                 ans.RespondentID = respondent.RespondentID;
                 ans.QAID = qaid;
                 ans.QuestionID = item.QuestionID;
-                ans.AnswerDate = DateTime.Now.Date;
+                ans.AnswerDate = DateTime.Today;
 
                 int qid = int.Parse(item.QuestionID.ToString());
                 var question = QAsManager.GetQuestionDetail(qid);

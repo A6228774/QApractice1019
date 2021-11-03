@@ -69,7 +69,7 @@ namespace QA.DBSource
                          select item);
 
                     var obj = query.ToList();
-                    if (obj == null)
+                    if (obj.Count > 0)
                         return false;
                     else
                         return true;
