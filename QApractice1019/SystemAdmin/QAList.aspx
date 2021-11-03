@@ -22,8 +22,8 @@
                     <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" /></td>
             </tr>
         </table>
-        <asp:Literal ID="ltlMsg" runat="server"></asp:Literal>
-        <asp:Button ID="delete_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要刪除這筆訂單嗎?'</br>'問卷資料將無法復原');" OnClick="delete_btn_Click" />
+        <asp:Literal ID="ltlMsg" runat="server"></asp:Literal></br>
+        <asp:Button ID="delete_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要刪除這筆訂單嗎?問卷資料將無法復原');" OnClick="delete_btn_Click" />
         <asp:Button ID="new_btn" runat="server" Text="新問卷" OnClick="new_btn_Click" />
         <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="#DEBA84" BorderColor="#DEBA84" BorderStyle="None" BorderWidth="1px" CellPadding="3" CellSpacing="2">
             <Columns>

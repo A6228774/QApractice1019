@@ -33,8 +33,19 @@ namespace QApractice1019.SystemAdmin
         }
         protected void delete_btn_Click(object sender, EventArgs e)
         {
-
-        }        
+            foreach (GridViewRow row in gv_QAList.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox cbx = (row.Cells[0].FindControl("delete_cbx") as CheckBox);
+                    if (cbx.Checked)
+                    {
+                        int qaid = int.Parse(row.Cells[1].Text);
+                        QAsManager.DeleteQA(qaid);
+                    }
+                }
+            }
+        }
         protected void search_btn_Click(object sender, EventArgs e)
         {
             if (tbx_keyword.Text != string.Empty)

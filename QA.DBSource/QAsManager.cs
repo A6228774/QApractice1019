@@ -250,5 +250,31 @@ namespace QA.DBSource
                 }
             }
         }
+        public static void DeleteQA(int qaid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.CustomizeQA.Where(o => o.QAID == qaid).FirstOrDefault();
+                    var obj2 = context.QADesign.Where(o => o.QAID == qaid);
+
+                    foreach (var item in obj2)
+                    {
+                        context.QADesign.Remove(item);
+                    }
+
+                    if (obj != null)
+                    {
+                        context.CustomizeQA.Remove(obj);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+        }
     }
 }
