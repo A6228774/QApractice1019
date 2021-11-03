@@ -47,7 +47,7 @@
                 <asp:BoundField HeaderText="結束時間" DataField="EndDate" DataFormatString="{0:d}" />
                 <asp:TemplateField HeaderText="回答資料">
                     <ItemTemplate>
-                        <a href="OutputCSV.aspx">觀看</a>
+                        <a href="OutputCSV.aspx?ID=<%# Eval("QAID") %>">觀看</a>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="觀看統計">

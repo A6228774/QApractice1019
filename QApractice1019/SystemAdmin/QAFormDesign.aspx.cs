@@ -177,5 +177,24 @@ namespace QApractice1019.SystemAdmin
         {
             Response.Redirect("QAList.aspx");
         }
+
+        protected void deleteQ_btn_Click(object sender, EventArgs e)
+        {
+            string qaidtxt = this.Request.QueryString["ID"].ToString();
+            int qaid = int.Parse(qaidtxt);
+
+            foreach (GridViewRow row in gv_QuestionList.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox cbx = (row.Cells[0].FindControl("delete_cbx") as CheckBox);
+                    if (cbx.Checked)
+                    {
+                        int qid = int.Parse(row.Cells[1].Text);
+                        QAsManager.DeleteQuestion(qaid, qid);
+                    }
+                }
+            }
+        }
     }
 }

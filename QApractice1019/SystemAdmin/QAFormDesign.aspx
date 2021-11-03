@@ -59,7 +59,7 @@
             <asp:BoundField HeaderText="選項" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?';" />
+                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');" onclick="deleteQ_btn_Click"/>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
