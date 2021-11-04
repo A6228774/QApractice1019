@@ -19,5 +19,14 @@ namespace QA.ORM.DBModels
         public int QAID { get; set; }
 
         public DateTime? AnswerDate { get; set; }
+
+        [Key]
+        [Column(Order = 2)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int QuestionID { get; set; }
+
+        [Key]
+        [Column(Order = 3)]
+        public Guid RespondentID { get; set; }
     }
 }

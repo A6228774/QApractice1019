@@ -8,8 +8,8 @@
     <asp:Button ID="output_btn" runat="server" Text="匯出"/></br>
     <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
         <Columns>
-            <asp:BoundField HeaderText="姓名" />
-            <asp:BoundField HeaderText="填寫時間" />
+            <asp:BoundField HeaderText="姓名" DataField="Name" />
+            <asp:BoundField HeaderText="填寫時間" DataField="AnswerDate" DataFormatString="{0:d}" />
             <asp:TemplateField HeaderText="觀看細節">
                 <Itemtemplate>
                    <a href="AnswerDetail.aspx?ID=<%#Eval("RespondentID") %>&QAID=<%# Eval("QAID") %>">前往</a>
