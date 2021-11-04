@@ -28,5 +28,12 @@ namespace QA.ORM.DBModels
         [Key]
         [Column(Order = 3)]
         public Guid RespondentID { get; set; }
+
+        public int? ChoiceID { get; set; }
+
+        [Key]
+        [Column(Order = 4)]
+        [StringLength(100)]
+        public string Answer { get; set; }
     }
 }
