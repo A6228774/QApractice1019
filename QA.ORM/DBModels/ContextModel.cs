@@ -18,6 +18,7 @@ namespace QA.ORM.DBModels
         public virtual DbSet<RespondentInfo> RespondentInfo { get; set; }
         public virtual DbSet<QADesign> QADesign { get; set; }
         public virtual DbSet<Respondent_answer> Respondent_answer { get; set; }
+        public virtual DbSet<CSVOutput_View> CSVOutput_View { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

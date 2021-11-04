@@ -117,13 +117,35 @@ namespace QA.DBSource
                 return null;
             }
         }
-        public static List<Respondent_answer> GetQAList()
+        public static RespondentInfo GetRespodentInfobyID(Guid guid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.RespondentInfo
+                         where item.RespondentID == guid
+                         select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
+        public static List<CSVOutput_View> GetAllAnswerList(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.Respondent_answer
+                    var query = (from item in context.CSVOutput_View
+                                 where item.QAID == qaid
                                  select item);
 
                     var list = query.ToList();
