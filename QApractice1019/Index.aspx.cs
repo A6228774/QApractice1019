@@ -16,27 +16,47 @@ namespace QApractice1019
         {
             DateTime today = DateTime.Now;
 
-            var list = QAsManager.GetQAList();
+            List<CustomizeQA> list = new List<CustomizeQA>();
+            list = QAsManager.GetQAList();
 
-            if (list.Count > 0)  // 檢查有無資料
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[5]
+            { new DataColumn("QAID"), new DataColumn("QATitle"), new DataColumn("Status"), new DataColumn("StartDate"), new DataColumn("EndDate")});
+
+            foreach (var row in list)
             {
-                var pagedList = this.GetPagedDataTable(list);
+                int qaid = row.QAID;
+                HyperLink qatitle = new HyperLink();
+                qatitle.Text = row.Title;
 
-                this.gv_QAList.DataSource = pagedList;
-                this.gv_QAList.DataBind();
+                string status;
+                if (today < row.StartDate)
+                {
+                    qatitle.Enabled = false;
+                    status = "未開始";
+                }
+                else if (today > row.EndDate)
+                {
+                    qatitle.Enabled = false;
+                    status = "已完結";
+                }
+                else
+                {
+                    qatitle.Enabled = true;
+                    status = "開放中";
+                }
 
-                this.ucPager.TotalSize = list.Count();
-                this.ucPager.Bind();
+                string start_d = row.StartDate.ToString("d");
+                string end_d = row.EndDate?.ToString("d");
+
+                dt.Rows.Add(qaid, qatitle.Text, status, start_d, end_d);
             }
-            else
-            {
-                this.gv_QAList.Visible = false;
-                this.ltl_NoData.Visible = true;
-            }
+            this.gv_QAList.DataSource = dt;
+            this.gv_QAList.DataBind();
         }
         protected void search_btn_Click(object sender, EventArgs e)
         {
-            if(tbx_keyword.Text != string.Empty)
+            if (tbx_keyword.Text != string.Empty)
             {
                 string keyword = this.tbx_keyword.Text;
 

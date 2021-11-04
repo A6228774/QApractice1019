@@ -36,10 +36,10 @@
                         <asp:BoundField HeaderText="#" DataField="QAID" />
                         <asp:TemplateField HeaderText="問卷名稱">
                             <ItemTemplate>
-                                <a href="QAForm.aspx?ID=<%# Eval("QAID") %>"><%# Eval("Title") %></a>
+                                <a href="QAForm.aspx?ID=<%# Eval("QAID") %>"><%# Eval("QATitle") %></a>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField HeaderText="狀態" />
+                        <asp:BoundField HeaderText="狀態" DataField="Status" />
                         <asp:BoundField DataField="StartDate" HeaderText="開始日期" DataFormatString="{0:d}" />
                         <asp:BoundField HeaderText="結束日期" DataField="EndDate" DataFormatString="{0:d}" />
                         <asp:TemplateField HeaderText="觀看統計">
