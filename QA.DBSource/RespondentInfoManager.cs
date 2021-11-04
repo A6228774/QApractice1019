@@ -81,6 +81,27 @@ namespace QA.DBSource
                 return true;
             }
         }
+        public static Respondent_answer GetRespodent_question_answer(Guid respondentid, int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Respondent_answer
+                         where item.RespondentID == respondentid && item.QAID == qaid && item.QuestionID == qid
+                         select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
         public static void CreateRespodent(RespondentInfo info)
         {
             try

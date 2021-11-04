@@ -13,12 +13,21 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string qaidtxt = this.Request.QueryString["ID"].ToString();
+            string qaidtxt = this.Request.QueryString["QAID"].ToString();
             int qaid = int.Parse(qaidtxt);
             var qaformInfo = QAsManager.GetQADetail(qaid);
-            DateTime today = DateTime.Today;
+            this.ltl_QAtitle.Text = qaformInfo.Title;
+
+            string respodentidtxt = this.Request.QueryString["ID"].ToString();
+            Guid respodentid = Guid.Parse(respodentidtxt);
 
             var qadesign = QAsManager.GetQAForm(qaid); //取得該問卷中的問題
+            var respodentinfo = RespondentInfoManager.GetRespodentInfobyID(respodentid);
+
+            this.ltl_name.Text = respodentinfo.Name;
+            this.ltl_email.Text = respodentinfo.Email;
+            this.ltl_phone.Text = respodentinfo.Phone;
+            this.ltl_age.Text = respodentinfo.Age.ToString();
 
             foreach (var item in qadesign)
             {
@@ -26,6 +35,7 @@ namespace QApractice1019.SystemAdmin
                 int qid = int.Parse(item.QuestionID.ToString());
 
                 var question = QAsManager.GetQuestionDetail(qid);
+                var answer = RespondentInfoManager.GetRespodent_question_answer(respodentid, qaid, qid);
 
                 if (question.QuestionType.ToString() == "TB")
                 {
@@ -33,6 +43,8 @@ namespace QApractice1019.SystemAdmin
                     title.Text = question.QuestionTitle;
                     TextBox tbx_ans = new TextBox();
                     tbx_ans.ID = "tbx_ans" + item.QuestionID;
+                    tbx_ans.Enabled = false;
+                    tbx_ans.Text = answer.Answer;
 
                     pnl_question.Controls.Add(title);
                     pnl_question.Controls.Add(tbx_ans);
@@ -44,10 +56,13 @@ namespace QApractice1019.SystemAdmin
                     title.Text = question.QuestionTitle;
                     RadioButtonList rb_ans = new RadioButtonList();
                     rb_ans.ID = "rb_ans" + item.QuestionID;
+                    rb_ans.Enabled = false;
 
                     List<string> list = Getchoicelist(question);
                     rb_ans.DataSource = list;
                     rb_ans.DataBind();
+
+                    rb_ans.SelectedValue = answer.Answer;
 
                     pnl_question.Controls.Add(title);
                     pnl_question.Controls.Add(rb_ans);
@@ -59,6 +74,7 @@ namespace QApractice1019.SystemAdmin
                     title.Text = question.QuestionTitle;
                     CheckBoxList cbx_ans = new CheckBoxList();
                     cbx_ans.ID = "cbx_ans" + item.QuestionID;
+                    cbx_ans.Enabled = false;
 
                     List<string> list = Getchoicelist(question);
                     cbx_ans.DataSource = list;

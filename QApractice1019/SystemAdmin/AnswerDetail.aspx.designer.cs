@@ -15,6 +15,15 @@ namespace QApractice1019.SystemAdmin
     {
 
         /// <summary>
+        /// ltl_QAtitle 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltl_QAtitle;
+
+        /// <summary>
         /// pnl_respondentInfo 控制項。
         /// </summary>
         /// <remarks>
@@ -24,40 +33,40 @@ namespace QApractice1019.SystemAdmin
         protected global::System.Web.UI.WebControls.Panel pnl_respondentInfo;
 
         /// <summary>
-        /// tbx_name 控制項。
+        /// ltl_name 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_name;
+        protected global::System.Web.UI.WebControls.Literal ltl_name;
 
         /// <summary>
-        /// tbx_email 控制項。
+        /// ltl_email 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_email;
+        protected global::System.Web.UI.WebControls.Literal ltl_email;
 
         /// <summary>
-        /// tbx_phone 控制項。
+        /// ltl_phone 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_phone;
+        protected global::System.Web.UI.WebControls.Literal ltl_phone;
 
         /// <summary>
-        /// tbx_age 控制項。
+        /// ltl_age 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbx_age;
+        protected global::System.Web.UI.WebControls.Literal ltl_age;
 
         /// <summary>
         /// ph_question 控制項。
