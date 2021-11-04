@@ -76,9 +76,21 @@ namespace QApractice1019.SystemAdmin
                     cbx_ans.ID = "cbx_ans" + item.QuestionID;
                     cbx_ans.Enabled = false;
 
+                    string answertxt = answer.Answer;
+                    char sperator = char.Parse(";");
+                    string[] answer_choice = answertxt.Split(sperator);
+
                     List<string> list = Getchoicelist(question);
                     cbx_ans.DataSource = list;
                     cbx_ans.DataBind();
+
+                    foreach (var c in answer_choice)
+                    {
+                        if (c != "")
+                        {
+                            cbx_ans.Items.FindByValue(c).Selected = true;
+                        }
+                    }
 
                     pnl_question.Controls.Add(title);
                     pnl_question.Controls.Add(cbx_ans);
