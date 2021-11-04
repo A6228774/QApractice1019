@@ -2,7 +2,9 @@
 using QA.ORM.DBModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -40,7 +42,17 @@ namespace QApractice1019.SystemAdmin
             {
                 Response.Redirect("QAList.aspx");
             }
+        }        
+        protected void output_btn_Click(object sender, EventArgs e)
+        {
+            string filepath = @"D:\Practice\QApractice1019\QApractice1019\QA_answerData.csv";
+            string qaidtxt = this.Request.QueryString["ID"].ToString();
+            int qaid = int.Parse(qaidtxt);
+
+            var list = RespondentInfoManager.GetAllAnswerList(qaid);
+            CSVGenerator<CSVOutput_View>(true, filepath, list);
         }
+
         private int GetCurrentPage()
         {
             string pageText = Request.QueryString["Page"];
@@ -58,6 +70,23 @@ namespace QApractice1019.SystemAdmin
         {
             int startIndex = (this.GetCurrentPage() - 1) * 10;
             return list.Skip(startIndex).Take(10).ToList();
+        }
+        void CSVGenerator<T>(bool genColumn, string FilePath, List<T> data)
+        {
+            using (var file = new StreamWriter(FilePath))
+            {
+                Type t = typeof(T);
+                PropertyInfo[] propInfos = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                //是否要輸出屬性名稱
+                if (genColumn)
+                {
+                    file.WriteLineAsync(string.Join(",", propInfos.Select(i => i.Name)));
+                }
+                foreach (var item in data)
+                {
+                    file.WriteLineAsync(string.Join(",", propInfos.Select(i => i.GetValue(item))));
+                }
+            }
         }
     }
 }
