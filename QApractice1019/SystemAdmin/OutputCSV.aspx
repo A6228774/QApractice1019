@@ -12,7 +12,7 @@
             <asp:BoundField HeaderText="填寫時間" />
             <asp:TemplateField HeaderText="觀看細節">
                 <Itemtemplate>
-                   <a href="AnswerDetail.aspx?ID<%#Eval("RespondentID") %>">前往</a>
+                   <a href="AnswerDetail.aspx?ID=<%#Eval("RespondentID") %>&QAID=<%# Eval("QAID") %>">前往</a>
                 </Itemtemplate>
             </asp:TemplateField>
         </Columns>
