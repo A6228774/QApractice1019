@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 namespace QApractice1019
 {
@@ -26,33 +27,39 @@ namespace QApractice1019
             foreach (var row in list)
             {
                 int qaid = row.QAID;
-                HyperLink qatitle = new HyperLink();
-                qatitle.Text = row.Title;
+                string title = row.Title;
 
                 string status;
                 if (today < row.StartDate)
                 {
-                    qatitle.Enabled = false;
                     status = "未開始";
                 }
                 else if (today > row.EndDate)
                 {
-                    qatitle.Enabled = false;
                     status = "已完結";
                 }
                 else
                 {
-                    qatitle.Enabled = true;
                     status = "開放中";
                 }
 
                 string start_d = row.StartDate.ToString("d");
                 string end_d = row.EndDate?.ToString("d");
 
-                dt.Rows.Add(qaid, qatitle.Text, status, start_d, end_d);
+                dt.Rows.Add(qaid, title, status, start_d, end_d);
             }
+
             this.gv_QAList.DataSource = dt;
             this.gv_QAList.DataBind();
+
+            foreach(GridViewRow gvrow in this.gv_QAList.Rows)
+            {
+                if(gvrow.Cells[2].Text != "開放中")
+                {
+                    HyperLink link = (HyperLink)gvrow.Cells[1].FindControl("qalink");
+                    link.Enabled = false;
+                }
+            }
         }
         protected void search_btn_Click(object sender, EventArgs e)
         {

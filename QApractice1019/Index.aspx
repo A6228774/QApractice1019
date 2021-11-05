@@ -36,7 +36,7 @@
                         <asp:BoundField HeaderText="#" DataField="QAID" />
                         <asp:TemplateField HeaderText="問卷名稱">
                             <ItemTemplate>
-                                <a href="QAForm.aspx?ID=<%# Eval("QAID") %>"><%# Eval("QATitle") %></a>
+                                <asp:HyperLink ID="qalink" runat="server" NavigateUrl='<%# string.Format("QAForm.aspx?ID={0}",HttpUtility.UrlEncode(Eval("QAID").ToString())) %>'><%# Eval("QATitle") %></asp:HyperLink>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField HeaderText="狀態" DataField="Status" />
