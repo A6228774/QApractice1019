@@ -108,7 +108,7 @@ namespace QApractice1019
 
             var qadesign = QAsManager.GetQAForm(qaid);
 
-            if ((RespondentInfoManager.GetRespodentByEmail(emailtxt) && RespondentInfoManager.GetRespodentByName(nametxt)))
+            if ((RespondentInfoManager.CheckRespodentByEmail(emailtxt) && RespondentInfoManager.CheckRespodentByName(nametxt)))
             {
                 var user = RespondentInfoManager.GetRespodentInfo(nametxt, emailtxt);
                 Guid rid = user.RespondentID;
@@ -157,6 +157,7 @@ namespace QApractice1019
                         }
                         else if (q.QuestionType.ToString() == "CB")
                         {
+                            List<string> anslist = new List<String>(); ;
                             CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
                             if (q.ChoiceID != null)
                             {
@@ -168,7 +169,6 @@ namespace QApractice1019
                                 {
                                     if (li.Selected)
                                     {
-                                        List<string> anslist = new List<String>(); ;
                                         anslist.Add(li.Value);
                                         resp.Answer = string.Join(";", anslist);
                                     }
@@ -231,6 +231,7 @@ namespace QApractice1019
                     }
                     else if (q.QuestionType.ToString() == "CB")
                     {
+                        List<string> anslist = new List<String>(); ;
                         CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
                         if (q.ChoiceID != null)
                         {
@@ -242,7 +243,6 @@ namespace QApractice1019
                             {
                                 if (li.Selected)
                                 {
-                                    List<string> anslist = new List<String>(); ;
                                     anslist.Add(li.Value);
                                     resp.Answer = string.Join(";", anslist);
                                 }
@@ -259,55 +259,6 @@ namespace QApractice1019
             }
         }
 
-        private void Save_answer(int qaid, List<QA_Question> qadesign, RespondentInfo respondent, Respondent_answer ans)
-        {
-            foreach (var item in qadesign)
-            {
-                ans.RespondentID = respondent.RespondentID;
-                ans.QAID = qaid;
-                ans.QuestionID = item.QuestionID;
-
-                int qid = int.Parse(item.QuestionID.ToString());
-                var question = QAsManager.GetQuestionDetail(qid);
-
-                if (question.QuestionType.ToString() == "TB")
-                {
-                    TextBox txtbox = (TextBox)pn_allquestions.FindControl("tbx_ans" + item.QuestionID);
-                    if (txtbox != null)
-                    {
-                        ans.Answer = txtbox.Text;
-                    }
-                }
-                else if (question.QuestionType.ToString() == "RB")
-                {
-                    RadioButtonList rblist = (RadioButtonList)pn_allquestions.FindControl("rb_ans" + item.QuestionID);
-                    ans.ChoiceID = question.ChoiceID;
-
-                    if (rblist != null)
-                    {
-                        ans.Answer = rblist.SelectedValue.ToString();
-                    }
-                }
-                else if (question.QuestionType.ToString() == "CB")
-                {
-                    CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
-                    ans.ChoiceID = question.ChoiceID;
-
-                    if (cbxlist != null)
-                    {
-                        foreach (ListItem li in cbxlist.Items)
-                        {
-                            if (li.Selected)
-                            {
-                                ans.Answer += li.Value.ToString() + ";";
-                            }
-                        }
-                    }
-                }
-
-                //AnswerManager.CreateRespodent_answer(ans);
-            }
-        }
         private bool CheckInput(out List<string> errorMsgList)
         {
             List<string> msglist = new List<string>();

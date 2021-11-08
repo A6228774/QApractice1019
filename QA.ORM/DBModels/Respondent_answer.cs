@@ -29,8 +29,9 @@ namespace QA.ORM.DBModels
         [StringLength(100)]
         public string Answer { get; set; }
 
-        public DateTime? AnswerDate { get; set; }
-
-        public int? RID { get; set; }
+        [Key]
+        [Column(Order = 4)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int RID { get; set; }
     }
 }

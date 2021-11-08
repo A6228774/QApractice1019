@@ -21,5 +21,7 @@ namespace QA.ORM.DBModels
         [Key]
         [Column(Order = 2)]
         public DateTime AnswerDate { get; set; }
+
+        public Guid? RespodentID { get; set; }
     }
 }

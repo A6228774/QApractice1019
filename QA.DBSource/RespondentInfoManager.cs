@@ -9,7 +9,7 @@ namespace QA.DBSource
 {
     public class RespondentInfoManager
     {
-        public static bool GetRespodentByEmail(string emailtxt)
+        public static bool CheckRespodentByEmail(string emailtxt)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace QA.DBSource
                 return true;
             }
         }
-        public static bool GetRespodentByName(string nametxt)
+        public static bool CheckRespodentByName(string nametxt)
         {
             try
             {
@@ -57,19 +57,19 @@ namespace QA.DBSource
                 return true;
             }
         }
-        public static bool GetRespodent_answer(Guid respondentid, int qaid)
+        public static bool CheckRepeatAnswer(Guid respondentid, int qaid)
         {
             try
             {
                 using (ContextModel context = new ContextModel())
                 {
                     var query =
-                        (from item in context.Respondent_answer
-                         where item.RespondentID == respondentid && item.QAID == qaid
+                        (from item in context.ResponseTable
+                         where item.RespodentID == respondentid && item.QAID == qaid
                          select item);
 
-                    var obj = query.ToList();
-                    if (obj.Count == 0)
+                    var obj = query.FirstOrDefault();
+                    if (obj == null)
                         return false;
                     else
                         return true;
@@ -79,27 +79,6 @@ namespace QA.DBSource
             {
                 Logger.WriteLog(ex);
                 return true;
-            }
-        }
-        public static Respondent_answer GetRespodent_question_answer(Guid respondentid, int qaid, int qid)
-        {
-            try
-            {
-                using (ContextModel context = new ContextModel())
-                {
-                    var query =
-                        (from item in context.Respondent_answer
-                         where item.RespondentID == respondentid && item.QAID == qaid && item.QuestionID == qid
-                         select item);
-
-                    var obj = query.FirstOrDefault();
-                    return obj;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog(ex);
-                return null;
             }
         }
         public static void CreateRespodent(RespondentInfo info)
@@ -138,6 +117,21 @@ namespace QA.DBSource
                 return null;
             }
         }
+        public static void CreateResponse(ResponseTable rt)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    context.ResponseTable.Add(rt);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+        }
         public static RespondentInfo GetRespodentInfobyID(Guid guid)
         {
             try
@@ -159,13 +153,13 @@ namespace QA.DBSource
                 return null;
             }
         }
-        public static List<CSVOutput_View> GetAllAnswerList(int qaid)
+        public static List<ResponseTable> GetAllAnswerList(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.CSVOutput_View
+                    var query = (from item in context.ResponseTable
                                  where item.QAID == qaid
                                  select item);
 
@@ -179,5 +173,27 @@ namespace QA.DBSource
                 }
             }
         }
+        public static Respondent_answer GetRespodent_question_answer(Guid respondentid, int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Respondent_answer
+                         where item.RespondentID == respondentid && item.QAID == qaid && item.QuestionID == qid
+                         select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
+
     }
 }

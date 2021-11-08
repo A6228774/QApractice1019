@@ -104,7 +104,7 @@ namespace QApractice1019.SystemAdmin
                     this.ltlMsg.Text = "<span style='color:red'>結束日期必須大於起始日期，請重新選取日期</span>";
                 }
 
-                var list = QAsManager.GetOrdersByDate(start_d, end_d);
+                var list = QAsManager.GetQAsByDate(start_d, end_d);
 
                 if (list.Count > 0)  // 檢查有無資料
                 {
@@ -141,11 +141,15 @@ namespace QApractice1019.SystemAdmin
                 return 1;
             return intPage;
         }
-        private List<CustomizeQA> GetPagedDataTable(List<CustomizeQA> list)
+        private List<QAInfo> GetPagedDataTable(List<QAInfo> list)
         {
             int startIndex = (this.GetCurrentPage() - 1) * 10;
             return list.Skip(startIndex).Take(10).ToList();
         }
 
+        protected void clear_btn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

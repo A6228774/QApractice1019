@@ -19,7 +19,9 @@
                     <asp:TextBox ID="end_d" runat="server" TextMode="Date"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" /></td>
+                    <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" />
+                    <asp:Button ID="clear_btn" runat="server" Text="清空" OnClick="clear_btn_Click" />
+                </td>
             </tr>
         </table>
         <asp:Literal ID="ltlMsg" runat="server"></asp:Literal></br>
