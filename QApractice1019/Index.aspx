@@ -9,6 +9,11 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <style type="text/css">
+        .auto-style1 {
+            height: 35px;
+        }
+    </style>
 </head>
 <body>
      <h2>簡易問卷大全</h2>
@@ -21,13 +26,15 @@
                                     <asp:TextBox ID="tbx_keyword" runat="server"></asp:TextBox></td>
                             </tr>
                             <tr>
-                                <td>開始/結束：</td>
-                                <td>
+                                <td class="auto-style1">開始/結束：</td>
+                                <td class="auto-style1">
                                     <asp:TextBox ID="start_d" runat="server" TextMode="Date"></asp:TextBox>
                                     <asp:TextBox ID="end_d" runat="server" TextMode="Date"></asp:TextBox>
                                 </td>
-                                <td>
-                                    <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" /></td>
+                                <td class="auto-style1">
+                                    <asp:Button ID="search_btn" runat="server" Text="檢索" OnClick="search_btn_Click" />
+                                    <asp:Button ID="clear_btn" runat="server" Text="清空" OnClick="clear_btn_Click" />
+                                </td>
                             </tr>
                         </table>
             <asp:Literal ID="ltlMsg" runat="server" Visible="False"></asp:Literal>
