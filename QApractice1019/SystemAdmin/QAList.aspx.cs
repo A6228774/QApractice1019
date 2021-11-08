@@ -52,25 +52,21 @@ namespace QApractice1019.SystemAdmin
             if (tbx_keyword.Text != string.Empty)
             {
                 string keyword = this.tbx_keyword.Text;
+                DateTime today = DateTime.Now;
+                var list = QAsManager.GetQAListbyKeyword(keyword);
 
-                QAsManager.GetQAListbyKeyword(keyword);
+                DataTable dt = GridViewDataBind(today, list);
 
-                var list = QAsManager.GetQAList();
+                this.gv_QAList.DataSource = dt;
+                this.gv_QAList.DataBind();
 
-                if (list.Count > 0)  // 檢查有無資料
+                foreach (GridViewRow gvrow in this.gv_QAList.Rows)
                 {
-                    var pagedList = this.GetPagedDataTable(list);
-
-                    this.gv_QAList.DataSource = pagedList;
-                    this.gv_QAList.DataBind();
-
-                    this.ucPager.TotalSize = list.Count();
-                    this.ucPager.Bind();
-                }
-                else
-                {
-                    this.gv_QAList.Visible = false;
-                    this.ltl_NoData.Visible = true;
+                    if (gvrow.Cells[2].Text != "開放中")
+                    {
+                        HyperLink link = (HyperLink)gvrow.Cells[1].FindControl("qalink");
+                        link.Enabled = false;
+                    }
                 }
             }
             else if ((start_d.Text != string.Empty) && (end_d.Text != string.Empty))
@@ -95,38 +91,78 @@ namespace QApractice1019.SystemAdmin
                     this.ltlMsg.Text = "<span style='color:red'>搜尋日期有錯誤，請重新選取日期</span>";
                     return;
                 }
-                DateTime start_d = DateTime.Parse(starttxt);
-                DateTime end_d = DateTime.Parse(endtxt);
 
-                if (end_d <= start_d)
+                DateTime start = DateTime.Parse(starttxt);
+                DateTime end = DateTime.Parse(endtxt);
+                DateTime today = DateTime.Today;
+
+                if (end <= start)
                 {
                     this.ltlMsg.Visible = true;
                     this.ltlMsg.Text = "<span style='color:red'>結束日期必須大於起始日期，請重新選取日期</span>";
                 }
 
-                var list = QAsManager.GetQAsByDate(start_d, end_d);
+                var list = QAsManager.GetQAsByDate(start, end);
+                DataTable dt = GridViewDataBind(today, list);
 
-                if (list.Count > 0)  // 檢查有無資料
+                this.gv_QAList.DataSource = dt;
+                this.gv_QAList.DataBind();
+
+                foreach (GridViewRow gvrow in this.gv_QAList.Rows)
                 {
-                    var pagedList = this.GetPagedDataTable(list);
-
-                    this.gv_QAList.DataSource = pagedList;
-                    this.gv_QAList.DataBind();
-
-                    this.ucPager.TotalSize = list.Count();
-                    this.ucPager.Bind();
-                }
-                else
-                {
-                    this.gv_QAList.Visible = false;
-                    this.ltl_NoData.Visible = true;
+                    if (gvrow.Cells[2].Text != "開放中")
+                    {
+                        HyperLink link = (HyperLink)gvrow.Cells[1].FindControl("qalink");
+                        link.Enabled = false;
+                    }
                 }
             }
         }
-
         protected void new_btn_Click(object sender, EventArgs e)
         {
             Response.Redirect("QAFormDetail.aspx");
+        }
+        protected void clear_btn_Click(object sender, EventArgs e)
+        {
+            this.start_d.Text = string.Empty;
+            this.end_d.Text = string.Empty;
+            this.tbx_keyword.Text = string.Empty;
+
+            Response.Redirect("Index.aspx");
+        }
+
+        private static DataTable GridViewDataBind(DateTime today, List<QAInfo> list)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[5]
+            { new DataColumn("QAID"), new DataColumn("QATitle"), new DataColumn("Status"), new DataColumn("StartDate"), new DataColumn("EndDate")});
+
+            foreach (var row in list)
+            {
+                int qaid = row.QAID;
+                string title = row.Title;
+
+                string status;
+                if (today < row.StartDate)
+                {
+                    status = "未開始";
+                }
+                else if (today > row.EndDate)
+                {
+                    status = "已完結";
+                }
+                else
+                {
+                    status = "開放中";
+                }
+
+                string start_d = row.StartDate.ToString("d");
+                string end_d = row.EndDate?.ToString("d");
+
+                dt.Rows.Add(qaid, title, status, start_d, end_d);
+            }
+
+            return dt;
         }
         private int GetCurrentPage()
         {
@@ -147,9 +183,5 @@ namespace QApractice1019.SystemAdmin
             return list.Skip(startIndex).Take(10).ToList();
         }
 
-        protected void clear_btn_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

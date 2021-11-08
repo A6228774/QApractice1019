@@ -71,7 +71,6 @@ namespace QApractice1019
                                 title.Text = item.Title + "</br>";
                                 RadioButtonList rb_ans = new RadioButtonList();
                                 rb_ans.ID = "rb_ans" + item.QID;
-                                rb_ans.Enabled = false;
 
                                 List<string> list = Getchoicelist(question);
                                 rb_ans.DataSource = list;
@@ -89,7 +88,6 @@ namespace QApractice1019
                                 title.Text = item.Title + "</br>";
                                 CheckBoxList cbx_ans = new CheckBoxList();
                                 cbx_ans.ID = "cbx_ans" + item.QID;
-                                cbx_ans.Enabled = false;
 
                                 string answertxt = item.Answer;
                                 char sperator = char.Parse(";");
@@ -384,6 +382,7 @@ namespace QApractice1019
         }
         protected void return_btn_Click(object sender, EventArgs e)
         {
+            this.Session.Clear();
             Response.Redirect("Index.aspx");
         }
 
