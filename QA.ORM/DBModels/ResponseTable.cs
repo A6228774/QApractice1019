@@ -16,6 +16,8 @@ namespace QA.ORM.DBModels
 
         public DateTime AnswerDate { get; set; }
 
-        public Guid RespodentID { get; set; }
+        public Guid RespondentID { get; set; }
+
+        public virtual RespondentInfo RespondentInfo { get; set; }
     }
 }

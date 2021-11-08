@@ -19,9 +19,14 @@ namespace QA.ORM.DBModels
         public virtual DbSet<ResponseTable> ResponseTable { get; set; }
         public virtual DbSet<QA_Question> QA_Question { get; set; }
         public virtual DbSet<Respondent_answer> Respondent_answer { get; set; }
+        public virtual DbSet<CSVOutput_View> CSVOutput_View { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<RespondentInfo>()
+                .HasMany(e => e.ResponseTable)
+                .WithRequired(e => e.RespondentInfo)
+                .WillCascadeOnDelete(false);
         }
     }
 }

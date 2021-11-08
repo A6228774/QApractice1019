@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="DBModels\ChoiceTable.cs" />
     <Compile Include="DBModels\ContextModel.cs" />
+    <Compile Include="DBModels\CSVOutput_View.cs" />
     <Compile Include="DBModels\QAInfo.cs" />
     <Compile Include="DBModels\QA_Question.cs" />
     <Compile Include="DBModels\QuestionsTable.cs" />

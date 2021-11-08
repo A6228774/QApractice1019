@@ -65,7 +65,7 @@ namespace QA.DBSource
                 {
                     var query =
                         (from item in context.ResponseTable
-                         where item.RespodentID == respondentid && item.QAID == qaid
+                         where item.RespondentID == respondentid && item.QAID == qaid
                          select item);
 
                     var obj = query.FirstOrDefault();
@@ -153,14 +153,15 @@ namespace QA.DBSource
                 return null;
             }
         }
-        public static List<ResponseTable> GetAllAnswerList(int qaid)
+        public static List<CSVOutput_View> GetAllAnswerList(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.ResponseTable
+                    var query = (from item in context.CSVOutput_View
                                  where item.QAID == qaid
+                                 orderby item.AnswerDate descending
                                  select item);
 
                     var list = query.ToList();

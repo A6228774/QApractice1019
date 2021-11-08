@@ -9,6 +9,12 @@ namespace QA.ORM.DBModels
     [Table("RespondentInfo")]
     public partial class RespondentInfo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RespondentInfo()
+        {
+            ResponseTable = new HashSet<ResponseTable>();
+        }
+
         [Key]
         public Guid RespondentID { get; set; }
 
@@ -25,5 +31,8 @@ namespace QA.ORM.DBModels
         public string Phone { get; set; }
 
         public int Age { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ResponseTable> ResponseTable { get; set; }
     }
 }

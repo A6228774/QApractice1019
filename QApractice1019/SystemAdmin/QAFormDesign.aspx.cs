@@ -51,11 +51,11 @@ namespace QApractice1019.SystemAdmin
 
             if (this.must_tbx.Checked)
             {
-                questions.MustKey = true;
+                //questions.MustKey = true;
             }
             else
             {
-                questions.MustKey = false;
+                //questions.MustKey = false;
             }
             if (type != "TB")
             {
@@ -122,7 +122,7 @@ namespace QApractice1019.SystemAdmin
 
             QAsManager.CreateQuestions(questions);
 
-            QADesign design = new QADesign();
+            QA_Question design = new QA_Question();
 
             if (this.Request.QueryString["ID"] != null)
             {
@@ -170,7 +170,7 @@ namespace QApractice1019.SystemAdmin
 
             this.title_tbx.Text = QuestionInfo.QuestionTitle;
             this.ddl_type.SelectedValue = QuestionInfo.QuestionType;
-            this.must_tbx.Checked = QuestionInfo.MustKey;
+            //this.must_tbx.Checked = QuestionInfo.MustKey;
 
         }
         protected void save_btn_Click(object sender, EventArgs e)

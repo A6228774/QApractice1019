@@ -123,7 +123,7 @@ namespace QApractice1019
                 RespondentInfoManager.CreateRespodent(info);
                 rt.QAID = qaid;
                 rt.AnswerDate = DateTime.Today;
-                rt.RespodentID = info.RespondentID;
+                rt.RespondentID = info.RespondentID;
 
                 RespondentInfoManager.CreateResponse(rt);
 
@@ -180,7 +180,7 @@ namespace QApractice1019
                 var user = RespondentInfoManager.GetRespodentInfo(name, email);
                 rt.QAID = qaid;
                 rt.AnswerDate = DateTime.Today;
-                rt.RespodentID = user.RespondentID;
+                rt.RespondentID = user.RespondentID;
 
                 RespondentInfoManager.CreateResponse(rt);
 
