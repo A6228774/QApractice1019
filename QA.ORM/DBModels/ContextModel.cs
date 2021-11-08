@@ -16,9 +16,9 @@ namespace QA.ORM.DBModels
         public virtual DbSet<QAInfo> QAInfo { get; set; }
         public virtual DbSet<QuestionsTable> QuestionsTable { get; set; }
         public virtual DbSet<RespondentInfo> RespondentInfo { get; set; }
+        public virtual DbSet<ResponseTable> ResponseTable { get; set; }
         public virtual DbSet<QA_Question> QA_Question { get; set; }
         public virtual DbSet<Respondent_answer> Respondent_answer { get; set; }
-        public virtual DbSet<ResponseTable> ResponseTable { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
