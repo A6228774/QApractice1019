@@ -21,15 +21,15 @@ namespace QApractice1019
             {
                 string qaidtxt = this.Request.QueryString["ID"].ToString();
                 int qaid = int.Parse(qaidtxt);
-                var qaformInfo = QAsManager.GetQADetail(qaid);
+                var qaInfo = QAsManager.GetQADetail(qaid);
                 DateTime today = DateTime.Today;
 
-                this.ltl_QAtitle.Text = qaformInfo.Title;
-                this.lb_summary.Text = qaformInfo.Summary;
+                this.ltl_QAtitle.Text = qaInfo.Title;
+                this.lb_summary.Text = qaInfo.Summary;
 
                 var qadesign = QAsManager.GetQAForm(qaid); //取得該問卷中的問題
 
-                if (today < qaformInfo.StartDate || today > qaformInfo.EndDate)
+                if (today < qaInfo.StartDate || today > qaInfo.EndDate)
                 {
                     this.submit_btn.Enabled = false;
                 }
@@ -45,18 +45,19 @@ namespace QApractice1019
                         if (question.QuestionType.ToString() == "TB")
                         {
                             Literal title = new Literal();
-                            title.Text = question.QuestionTitle;
+                            title.Text = question.QuestionTitle + "</br>";
                             TextBox tbx_ans = new TextBox();
                             tbx_ans.ID = "tbx_ans" + item.QuestionID;
 
+
                             pnl_question.Controls.Add(title);
                             pnl_question.Controls.Add(tbx_ans);
-                            ph_question.Controls.Add(pnl_question);
+                            this.pn_allquestions.Controls.Add(pnl_question);
                         }
                         else if (question.QuestionType.ToString() == "RB")
                         {
                             Literal title = new Literal();
-                            title.Text = question.QuestionTitle;
+                            title.Text = question.QuestionTitle + "</br>";
                             RadioButtonList rb_ans = new RadioButtonList();
                             rb_ans.ID = "rb_ans" + item.QuestionID;
 
@@ -66,12 +67,12 @@ namespace QApractice1019
 
                             pnl_question.Controls.Add(title);
                             pnl_question.Controls.Add(rb_ans);
-                            ph_question.Controls.Add(pnl_question);
+                            this.pn_allquestions.Controls.Add(pnl_question);
                         }
                         else if (question.QuestionType.ToString() == "CB")
                         {
                             Literal title = new Literal();
-                            title.Text = question.QuestionTitle;
+                            title.Text = question.QuestionTitle + "</br>";
                             CheckBoxList cbx_ans = new CheckBoxList();
                             cbx_ans.ID = "cbx_ans" + item.QuestionID;
 
@@ -81,9 +82,10 @@ namespace QApractice1019
 
                             pnl_question.Controls.Add(title);
                             pnl_question.Controls.Add(cbx_ans);
-                            ph_question.Controls.Add(pnl_question);
+                            this.pn_allquestions.Controls.Add(pnl_question);
                         }
                     }
+
                 }
             }
         }
@@ -106,8 +108,83 @@ namespace QApractice1019
 
             var qadesign = QAsManager.GetQAForm(qaid);
 
-            if (!(RespondentInfoManager.GetRespodentByEmail(emailtxt) && RespondentInfoManager.GetRespodentByName(nametxt)))
+            if ((RespondentInfoManager.GetRespodentByEmail(emailtxt) && RespondentInfoManager.GetRespodentByName(nametxt)))
             {
+                var user = RespondentInfoManager.GetRespodentInfo(nametxt, emailtxt);
+                Guid rid = user.RespondentID;
+
+                if (RespondentInfoManager.CheckRepeatAnswer(rid, qaid))
+                {
+                    this.ltlMsg.Visible = true;
+                    this.ltlMsg.Text = "<span style='color:red'>此用戶已經回答過本問卷</span>";
+                }
+                else
+                {
+                    HttpContext.Current.Session["QA_respodent"] = user;
+
+                    List<ConfirmModel> resplist = new List<ConfirmModel>();
+
+                    foreach (var item in qadesign)
+                    {
+                        ConfirmModel resp = new ConfirmModel();
+                        int qid = int.Parse(item.QuestionID.ToString());
+                        var q = QAsManager.GetQuestionDetail(qid);
+
+                        resp.QID = qid;
+                        resp.Title = q.QuestionTitle;
+                        resp.Type = q.QuestionType;
+
+                        if (q.QuestionType.ToString() == "TB")
+                        {
+                            TextBox txtbox = (TextBox)this.pn_allquestions.FindControl("tbx_ans" + item.QuestionID);
+                            if (txtbox != null)
+                            {
+                                resp.Answer = txtbox.Text;
+                            }
+                        }
+                        else if (q.QuestionType.ToString() == "RB")
+                        {
+                            RadioButtonList rblist = (RadioButtonList)pn_allquestions.FindControl("rb_ans" + item.QuestionID);
+                            if (q.ChoiceID != null)
+                            {
+                                resp.CID = (int)q.ChoiceID;
+                            }
+
+                            if (rblist != null)
+                            {
+                                resp.Answer = rblist.SelectedValue.ToString();
+                            }
+                        }
+                        else if (q.QuestionType.ToString() == "CB")
+                        {
+                            CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
+                            if (q.ChoiceID != null)
+                            {
+                                resp.CID = (int)q.ChoiceID;
+                            }
+                            if (cbxlist != null)
+                            {
+                                foreach (ListItem li in cbxlist.Items)
+                                {
+                                    if (li.Selected)
+                                    {
+                                        List<string> anslist = new List<String>(); ;
+                                        anslist.Add(li.Value);
+                                        resp.Answer = string.Join(";", anslist);
+                                    }
+                                }
+                            }
+                        }
+                        resplist.Add(resp);
+                    }
+                    HttpContext.Current.Session["QA_respodent_answer"] = resplist;
+                    Response.Redirect("QAConfirmPage.aspx?ID=" + qaidtxt);
+                }
+            }
+            else
+            {
+                #region RespondentInfo   
+
                 RespondentInfo info = new RespondentInfo();
 
                 Guid guid = Guid.NewGuid();
@@ -117,102 +194,85 @@ namespace QApractice1019
                 info.Email = emailtxt;
                 info.Phone = phonetxt;
                 info.Age = age;
-                //RespondentInfoManager.CreateRespodent(info);
+                #endregion
 
-                Respondent_answer ans = new Respondent_answer();
+                List<ConfirmModel> resplist = new List<ConfirmModel>();
 
                 foreach (var item in qadesign)
                 {
-                    ans.RespondentID = guid;
-                    ans.QAID = qaid;
-                    ans.QuestionID = item.QuestionID;
-                    ans.AnswerDate = DateTime.Today;
-
+                    ConfirmModel resp = new ConfirmModel();
                     int qid = int.Parse(item.QuestionID.ToString());
-                    var question = QAsManager.GetQuestionDetail(qid);
+                    var q = QAsManager.GetQuestionDetail(qid);
 
-                    if (question.QuestionType.ToString() == "TB")
+                    resp.QID = qid;
+                    resp.Title = q.QuestionTitle;
+                    resp.Type = q.QuestionType;
+
+                    if (q.QuestionType.ToString() == "TB")
                     {
-                        TextBox txtbox = (TextBox)ph_question.FindControl("tbx_ans" + item.QuestionID);
+                        TextBox txtbox = (TextBox)this.pn_allquestions.FindControl("tbx_ans" + item.QuestionID);
                         if (txtbox != null)
                         {
-                            ans.Answer = txtbox.Text;
+                            resp.Answer = txtbox.Text;
                         }
                     }
-                    else if (question.QuestionType.ToString() == "RB")
+                    else if (q.QuestionType.ToString() == "RB")
                     {
-                        RadioButtonList rblist = (RadioButtonList)ph_question.FindControl("rb_ans" + item.QuestionID);
-                        ans.ChoiceID = question.ChoiceID;
+                        RadioButtonList rblist = (RadioButtonList)pn_allquestions.FindControl("rb_ans" + item.QuestionID);
+                        if (q.ChoiceID != null)
+                        {
+                            resp.CID = (int)q.ChoiceID;
+                        }
 
                         if (rblist != null)
                         {
-                            ans.Answer = rblist.SelectedValue.ToString();
+                            resp.Answer = rblist.SelectedValue.ToString();
                         }
                     }
-                    else if (question.QuestionType.ToString() == "CB")
+                    else if (q.QuestionType.ToString() == "CB")
                     {
-                        CheckBoxList cbxlist = (CheckBoxList)ph_question.FindControl("cbx_ans" + item.QuestionID);
-                        ans.ChoiceID = question.ChoiceID;
-
+                        CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
+                        if (q.ChoiceID != null)
+                        {
+                            resp.CID = (int)q.ChoiceID;
+                        }
                         if (cbxlist != null)
                         {
                             foreach (ListItem li in cbxlist.Items)
                             {
                                 if (li.Selected)
                                 {
-                                    ans.Answer += li.Value.ToString() + ";";
+                                    List<string> anslist = new List<String>(); ;
+                                    anslist.Add(li.Value);
+                                    resp.Answer = string.Join(";", anslist);
                                 }
                             }
                         }
                     }
-
-                    //AnswerManager.CreateRespodent_answer(ans);
+                    resplist.Add(resp);
                 }
 
                 HttpContext.Current.Session["QA_respodent"] = info;
-                HttpContext.Current.Session["QA_answer"] = ans;
+                HttpContext.Current.Session["QA_respodent_answer"] = resplist;
 
                 Response.Redirect("QAConfirmPage.aspx?ID=" + qaidtxt);
             }
-            else
-            {
-                var respondent = RespondentInfoManager.GetRespodentInfo(nametxt, emailtxt);
-
-                if (RespondentInfoManager.GetRespodent_answer(respondent.RespondentID, qaid))
-                {
-                    this.ltlMsg.Text = "<span style='color:red'>此用戶已經回答過本問卷</span>";
-                    return;
-                }
-                else
-                {
-                    Respondent_answer ans = new Respondent_answer();
-
-                    Save_answer(qaid, qadesign, respondent, ans);
-
-                    HttpContext.Current.Session["QA_respodent"] = respondent;
-                    HttpContext.Current.Session["QA_answer"] = ans;
-
-                    Response.Redirect("QAConfirmPage.aspx?ID=" + qaidtxt);
-                }
-            }
-
         }
 
-        private void Save_answer(int qaid, List<QADesign> qadesign, RespondentInfo respondent, Respondent_answer ans)
+        private void Save_answer(int qaid, List<QA_Question> qadesign, RespondentInfo respondent, Respondent_answer ans)
         {
             foreach (var item in qadesign)
             {
                 ans.RespondentID = respondent.RespondentID;
                 ans.QAID = qaid;
                 ans.QuestionID = item.QuestionID;
-                ans.AnswerDate = DateTime.Today;
 
                 int qid = int.Parse(item.QuestionID.ToString());
                 var question = QAsManager.GetQuestionDetail(qid);
 
                 if (question.QuestionType.ToString() == "TB")
                 {
-                    TextBox txtbox = (TextBox)ph_question.FindControl("tbx_ans" + item.QuestionID);
+                    TextBox txtbox = (TextBox)pn_allquestions.FindControl("tbx_ans" + item.QuestionID);
                     if (txtbox != null)
                     {
                         ans.Answer = txtbox.Text;
@@ -220,7 +280,7 @@ namespace QApractice1019
                 }
                 else if (question.QuestionType.ToString() == "RB")
                 {
-                    RadioButtonList rblist = (RadioButtonList)ph_question.FindControl("rb_ans" + item.QuestionID);
+                    RadioButtonList rblist = (RadioButtonList)pn_allquestions.FindControl("rb_ans" + item.QuestionID);
                     ans.ChoiceID = question.ChoiceID;
 
                     if (rblist != null)
@@ -230,7 +290,7 @@ namespace QApractice1019
                 }
                 else if (question.QuestionType.ToString() == "CB")
                 {
-                    CheckBoxList cbxlist = (CheckBoxList)ph_question.FindControl("cbx_ans" + item.QuestionID);
+                    CheckBoxList cbxlist = (CheckBoxList)pn_allquestions.FindControl("cbx_ans" + item.QuestionID);
                     ans.ChoiceID = question.ChoiceID;
 
                     if (cbxlist != null)

@@ -9,13 +9,13 @@ namespace QA.DBSource
 {
     public class QAsManager
     {
-        public static List<CustomizeQA> GetQAList()
+        public static List<QAInfo> GetQAList()
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.CustomizeQA
+                    var query = (from item in context.QAInfo
                                  select item);
 
                     var list = query.ToList();
@@ -28,13 +28,13 @@ namespace QA.DBSource
                 }
             }
         }
-        public static List<CustomizeQA> GetQAListbyKeyword(string keyword)
+        public static List<QAInfo> GetQAListbyKeyword(string keyword)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.CustomizeQA
+                    var query = (from item in context.QAInfo
                                  where item.Title.Contains(keyword)
                                  select item);
 
@@ -48,7 +48,7 @@ namespace QA.DBSource
                 }
             }
         }
-        public static List<CustomizeQA> GetOrdersByDate(DateTime start_t, DateTime end_t)
+        public static List<QAInfo> GetQAsByDate(DateTime start_t, DateTime end_t)
         {
             using (ContextModel context = new ContextModel())
             {
@@ -56,7 +56,7 @@ namespace QA.DBSource
                 {
                     DateTime newend_d = end_t.AddDays(1);
 
-                    var query = (from item in context.CustomizeQA
+                    var query = (from item in context.QAInfo
                                  where item.EndDate <= newend_d && item.StartDate >= start_t
                                  select item);
 
@@ -70,13 +70,13 @@ namespace QA.DBSource
                 }
             }
         }
-        public static CustomizeQA GetQADetail(int qaid)
+        public static QAInfo GetQADetail(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.CustomizeQA
+                    var query = (from item in context.QAInfo
                                  where item.QAID == qaid
                                  select item);
 
@@ -105,13 +105,13 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
-        public static void CreateCustomizeQA(CustomizeQA QAInfo)
+        public static void CreateCustomizeQA(QAInfo QAInfo)
         {
             try
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    context.CustomizeQA.Add(QAInfo);
+                    context.QAInfo.Add(QAInfo);
                     context.SaveChanges();
                 }
             }
@@ -120,13 +120,13 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
-        public static void InsertQuestions(QADesign design)
+        public static void InsertQuestions(QA_Question design)
         {
             try
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    context.QADesign.Add(design);
+                    context.QA_Question.Add(design);
                     context.SaveChanges();
                 }
             }
@@ -196,7 +196,7 @@ namespace QA.DBSource
                 try
                 {
                     var query = (from item in context.QuestionsTable
-                                 join design in context.QADesign on item.QuestionID equals design.QuestionID
+                                 join design in context.QA_Question on item.QuestionID equals design.QuestionID
                                  where design.QAID == qaid
                                  select item);
 
@@ -210,13 +210,13 @@ namespace QA.DBSource
                 }
             }
         }
-        public static List<QADesign> GetQAForm(int qaid)
+        public static List<QA_Question> GetQAForm(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.QADesign
+                    var query = (from item in context.QA_Question
                                  where item.QAID == qaid
                                  select item);
 
@@ -256,17 +256,17 @@ namespace QA.DBSource
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    var obj = context.CustomizeQA.Where(o => o.QAID == qaid).FirstOrDefault();
-                    var obj2 = context.QADesign.Where(o => o.QAID == qaid);
+                    var obj = context.QAInfo.Where(o => o.QAID == qaid).FirstOrDefault();
+                    var obj2 = context.QA_Question.Where(o => o.QAID == qaid);
 
                     foreach (var item in obj2)
                     {
-                        context.QADesign.Remove(item);
+                        context.QA_Question.Remove(item);
                     }
 
                     if (obj != null)
                     {
-                        context.CustomizeQA.Remove(obj);
+                        context.QAInfo.Remove(obj);
                         context.SaveChanges();
                     }
                 }
@@ -282,11 +282,11 @@ namespace QA.DBSource
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    var obj = context.QADesign.Where(o => o.QAID == qaid && o.QuestionID == qid).FirstOrDefault();
+                    var obj = context.QA_Question.Where(o => o.QAID == qaid && o.QuestionID == qid).FirstOrDefault();
 
                     if (obj != null)
                     {
-                        context.QADesign.Remove(obj);
+                        context.QA_Question.Remove(obj);
                         context.SaveChanges();
                     }
                 }

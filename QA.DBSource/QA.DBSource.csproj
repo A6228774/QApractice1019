@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnswerManager.cs" />
+    <Compile Include="ConfirmModel.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="QAsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
