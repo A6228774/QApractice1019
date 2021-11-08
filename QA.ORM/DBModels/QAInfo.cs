@@ -6,8 +6,8 @@ namespace QA.ORM.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("CustomizeQA")]
-    public partial class CustomizeQA
+    [Table("QAInfo")]
+    public partial class QAInfo
     {
         [Key]
         public int QAID { get; set; }

@@ -6,19 +6,20 @@ namespace QA.ORM.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("QADesign")]
-    public partial class QADesign
+    [Table("ResponseTable")]
+    public partial class ResponseTable
     {
         [Key]
         [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int QAID { get; set; }
+        public int ResponseID { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int QuestionID { get; set; }
+        public int QAID { get; set; }
 
-        public virtual QuestionsTable QuestionsTable { get; set; }
+        [Key]
+        [Column(Order = 2)]
+        public DateTime AnswerDate { get; set; }
     }
 }

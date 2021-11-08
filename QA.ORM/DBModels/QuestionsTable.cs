@@ -9,12 +9,6 @@ namespace QA.ORM.DBModels
     [Table("QuestionsTable")]
     public partial class QuestionsTable
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QuestionsTable()
-        {
-            QADesign = new HashSet<QADesign>();
-        }
-
         [Key]
         public int QuestionID { get; set; }
 
@@ -31,8 +25,5 @@ namespace QA.ORM.DBModels
         public int? ChoiceID { get; set; }
 
         public bool? CommonQuestion { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QADesign> QADesign { get; set; }
     }
 }

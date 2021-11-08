@@ -30,5 +30,7 @@ namespace QA.ORM.DBModels
         public string Answer { get; set; }
 
         public DateTime? AnswerDate { get; set; }
+
+        public int? RID { get; set; }
     }
 }
