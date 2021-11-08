@@ -43,7 +43,7 @@
         <asp:PlaceHolder ID="ph_question" runat="server"></asp:PlaceHolder>
         </br>
         <asp:Button ID="return_btn" runat="server" Text="修改" OnClick="return_btn_Click" style="height: 27px" />
-        <asp:Button ID="submit_btn" runat="server" Text="提交" OnClick="submit_btn_Click" />
+        <asp:Button ID="submit_btn" runat="server" Text="提交" OnClick="submit_btn_Click" OnClientClick="return confirm('確認要送出表單嗎?');" />
     </form>
 </body>
 </html>

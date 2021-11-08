@@ -20,8 +20,6 @@ namespace QA.ORM.DBModels
         [StringLength(50)]
         public string QuestionType { get; set; }
 
-        public bool MustKey { get; set; }
-
         public int? ChoiceID { get; set; }
 
         public bool? CommonQuestion { get; set; }

@@ -17,5 +17,9 @@ namespace QA.ORM.DBModels
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int QuestionID { get; set; }
+
+        [Key]
+        [Column(Order = 2)]
+        public bool MustKey { get; set; }
     }
 }

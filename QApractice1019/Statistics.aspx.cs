@@ -33,24 +33,24 @@ namespace QApractice1019
                     if (question.QuestionType.ToString() == "RB")
                     {
                         Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        Chart rb_chart = new Chart();
+                        title.Text = question.QuestionTitle + "</br>";
+                        //rb_ans.ID = "rb_ans" + item.QuestionID;
 
                         List<string> list = Getchoicelist(question);
 
                         pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(rb_chart);
-                        ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(pnl_question);
                     }
                     else if (question.QuestionType.ToString() == "CB")
                     {
                         Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        Chart cbx_chart = new Chart();
+                        title.Text = question.QuestionTitle + "</br>";
+                        //cbx_ans.ID = "cbx_ans" + item.QuestionID;
+
+                        List<string> list = Getchoicelist(question);
 
                         pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(cbx_chart);
-                        ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(pnl_question);
                     }
                 }
             }

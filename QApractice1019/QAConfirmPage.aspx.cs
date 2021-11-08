@@ -127,22 +127,20 @@ namespace QApractice1019
 
                 RespondentInfoManager.CreateResponse(rt);
 
-                Respondent_answer answer = new Respondent_answer();
-
-                answer.RespondentID = info.RespondentID;
-                answer.RID = rt.ResponseID;
-                answer.QAID = qaid;
-
                 foreach (ConfirmModel item in confirm)
                 {
+                    Respondent_answer answer = new Respondent_answer();
+                    answer.RespondentID = info.RespondentID;
+                    answer.RID = rt.ResponseID;
+                    answer.QAID = qaid;
                     answer.QuestionID = item.QID;
 
                     if (item.Type == "TB")
                     {
-                        TextBox txtbox = (TextBox)ph_question.FindControl("tbx_ans" + item.QID);
-                        if (txtbox != null)
+                        Label label = (Label)ph_question.FindControl("tbx_ans" + item.QID);
+                        if (label != null)
                         {
-                            answer.Answer = txtbox.Text;
+                            answer.Answer = label.Text;
                         }
                     }
                     else if (item.Type == "RB")
@@ -174,6 +172,8 @@ namespace QApractice1019
 
                     AnswerManager.CreateRespodent_answer(answer);
                 }
+                Response.Redirect("Index.aspx");
+
             }
             else
             {
@@ -184,21 +184,20 @@ namespace QApractice1019
 
                 RespondentInfoManager.CreateResponse(rt);
 
-                Respondent_answer answer = new Respondent_answer();
-                answer.RespondentID = user.RespondentID;
-                answer.RID = rt.ResponseID;
-                answer.QAID = qaid;
-
                 foreach (ConfirmModel item in confirm)
                 {
+                    Respondent_answer answer = new Respondent_answer();
+                    answer.RespondentID = user.RespondentID;
+                    answer.RID = rt.ResponseID;
+                    answer.QAID = qaid;
                     answer.QuestionID = item.QID;
 
                     if (item.Type == "TB")
                     {
-                        TextBox txtbox = (TextBox)ph_question.FindControl("tbx_ans" + item.QID);
-                        if (txtbox != null)
+                        Label label = (Label)ph_question.FindControl("tbx_ans" + item.QID);
+                        if (label != null)
                         {
-                            answer.Answer = txtbox.Text;
+                            answer.Answer = label.Text;
                         }
                     }
                     else if (item.Type == "RB")
@@ -230,6 +229,7 @@ namespace QApractice1019
 
                     AnswerManager.CreateRespodent_answer(answer);
                 }
+                Response.Redirect("Index.aspx");
             }
         }
         protected void return_btn_Click(object sender, EventArgs e)

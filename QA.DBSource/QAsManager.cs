@@ -250,6 +250,30 @@ namespace QA.DBSource
                 }
             }
         }
+        public static bool CheckMustkey(int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.QA_Question
+                         where item.QAID == qaid && item.QuestionID == qid
+                         select item.MustKey);
+
+                    var obj = query.FirstOrDefault();
+                    if (obj == true)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
+            }
+        }
         public static void DeleteQA(int qaid)
         {
             try

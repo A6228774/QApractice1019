@@ -24,13 +24,11 @@ namespace QA.ORM.DBModels
 
         public int? ChoiceID { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
         [StringLength(100)]
         public string Answer { get; set; }
 
         [Key]
-        [Column(Order = 4)]
+        [Column(Order = 3)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RID { get; set; }
     }

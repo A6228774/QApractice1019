@@ -46,6 +46,7 @@
         <asp:Panel ID="pn_allquestions" runat="server"></asp:Panel>
         <asp:Literal ID="ltlMsg" runat="server"></asp:Literal></br>
         <asp:Button ID="submit_btn" runat="server" Text="提交" OnClick="submit_btn_Click" />
+        <asp:Button ID="return_btn" runat="server" Text="取消" OnClick="return_btn_Click" />
     </form>
 </body>
 </html>
