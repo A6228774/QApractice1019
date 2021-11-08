@@ -23,7 +23,7 @@
             <td><asp:TextBox ID="tbx_end" runat="server" TextMode="Date"></asp:TextBox></td>
         </tr>
         <tr>
-            <td colspan="2"><asp:CheckBox ID="cbx_enable" runat="server" Text="已啟用" /></td>
+            <td colspan="2"><asp:CheckBox ID="cbx_enable" runat="server" Text="已啟用" checked="true"/></td>
         </tr>
         </table>
     <asp:Literal ID="ltl_Msg" runat="server"></asp:Literal></br>

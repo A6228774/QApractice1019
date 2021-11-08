@@ -17,7 +17,7 @@ namespace QApractice1019.SystemAdmin
             {
                 if (this.Request.QueryString["ID"] == null)
                 {
-                    return;
+                    this.tbx_start.Text = DateTime.Today.ToString("yyyy-MM-dd");
                 }
                 else
                 {
@@ -38,7 +38,7 @@ namespace QApractice1019.SystemAdmin
 
         protected void design_btn_Click(object sender, EventArgs e)
         {
-            CustomizeQA temp = new CustomizeQA();
+            QAInfo temp = new QAInfo();
 
             temp.QAID = new int();
             temp.Title = this.tbx_title.Text;
