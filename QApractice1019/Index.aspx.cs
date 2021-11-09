@@ -27,6 +27,22 @@ namespace QApractice1019
                 this.gv_QAList.DataSource = dt;
                 this.gv_QAList.DataBind();
 
+                //if (dt.Rows.Count > 0)  // 檢查有無資料
+                //{
+                //    var pagedList = this.GetPagedDataTable(dt);
+                //
+                //    this.gv_QAList.DataSource = pagedList;
+                //    this.gv_QAList.DataBind();
+                //
+                //    this.ucPager.TotalSize = list.Count();
+                //    this.ucPager.Bind();
+                //}
+                //else
+                //{
+                //    this.gv_QAList.Visible = false;
+                //    this.ltl_NoData.Visible = true;
+                //}
+
                 foreach (GridViewRow gvrow in this.gv_QAList.Rows)
                 {
                     if (gvrow.Cells[2].Text != "開放中")
@@ -163,10 +179,10 @@ namespace QApractice1019
                 return 1;
             return intPage;
         }
-        private List<QAInfo> GetPagedDataTable(List<QAInfo> list)
+        private List<DataTable> GetPagedDataTable(List<DataTable> dt)
         {
             int startIndex = (this.GetCurrentPage() - 1) * 10;
-            return list.Skip(startIndex).Take(10).ToList();
+            return dt.AsEnumerable().Skip(startIndex).Take(10).ToList();
         }
     }
 }

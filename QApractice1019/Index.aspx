@@ -38,7 +38,7 @@
                             </tr>
                         </table>
             <asp:Literal ID="ltlMsg" runat="server" Visible="False"></asp:Literal>
-            <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+            <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" AllowPaging="True">
                     <Columns>
                         <asp:BoundField HeaderText="#" DataField="QAID" />
                         <asp:TemplateField HeaderText="問卷名稱">
