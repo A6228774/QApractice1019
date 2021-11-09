@@ -55,6 +55,7 @@
     <Compile Include="DBModels\CSVOutput_View.cs" />
     <Compile Include="DBModels\QAInfo.cs" />
     <Compile Include="DBModels\QA_Question.cs" />
+    <Compile Include="DBModels\QA_Question_View.cs" />
     <Compile Include="DBModels\QuestionsTable.cs" />
     <Compile Include="DBModels\RespondentInfo.cs" />
     <Compile Include="DBModels\Respondent_answer.cs" />

@@ -74,6 +74,29 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static bool UpdateQuestion(int qid, QuestionsTable questions)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.QuestionsTable.Where(o => o.QuestionID == qid).FirstOrDefault();
+
+                    if(obj != null)
+                    {
+
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
+            }
+        }
         public static bool UpdateCommonQuestion(int qid, bool onoff)
         {
             try
@@ -113,15 +136,14 @@ namespace QA.DBSource
                 }
             }
         }
-        public static List<QuestionsTable> GetQuestionsListbyQAID(int qaid)
+        public static List<QA_Question_View> GetQuestionsListbyQAID(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
                 try
                 {
-                    var query = (from item in context.QuestionsTable
-                                 join design in context.QA_Question on item.QuestionID equals design.QuestionID
-                                 where design.QAID == qaid
+                    var query = (from item in context.QA_Question_View
+                                 where item.QAID == qaid
                                  select item);
 
                     var list = query.ToList();

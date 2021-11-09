@@ -20,6 +20,7 @@ namespace QA.ORM.DBModels
         public virtual DbSet<QA_Question> QA_Question { get; set; }
         public virtual DbSet<Respondent_answer> Respondent_answer { get; set; }
         public virtual DbSet<CSVOutput_View> CSVOutput_View { get; set; }
+        public virtual DbSet<QA_Question_View> QA_Question_View { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
