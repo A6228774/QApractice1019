@@ -55,7 +55,7 @@
                     </asp:DropDownList>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:CheckBoxField DataField="MustKey" HeaderText="必填" ReadOnly="True" />
+            <asp:CheckBoxField HeaderText="必填" ReadOnly="True" />
             <asp:BoundField HeaderText="選項" />
             <asp:TemplateField>
                 <ItemTemplate>

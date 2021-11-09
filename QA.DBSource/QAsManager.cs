@@ -210,6 +210,26 @@ namespace QA.DBSource
                 }
             }
         }
+        public static List<QuestionsTable> GetQuestionsyQID(int qid)
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.QuestionsTable
+                                 where item.QuestionID == qid
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
         public static List<QA_Question> GetQAForm(int qaid)
         {
             using (ContextModel context = new ContextModel())

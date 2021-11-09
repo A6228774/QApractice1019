@@ -48,7 +48,7 @@
                         </asp:TemplateField>
                         <asp:BoundField HeaderText="狀態" DataField="Status" />
                         <asp:BoundField DataField="StartDate" HeaderText="開始日期" DataFormatString="{0:d}" />
-                        <asp:BoundField HeaderText="結束日期" DataField="EndDate" DataFormatString="{0:d}" />
+                        <asp:BoundField HeaderText="結束日期" DataField="EndDate" DataFormatString="{0:d}" NullDisplayText="-" />
                         <asp:TemplateField HeaderText="觀看統計">
                             <ItemTemplate>
                             <a href="Statistics.aspx?ID=<%# Eval("QAID") %>">前往</a>

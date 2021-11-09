@@ -146,7 +146,6 @@ namespace QApractice1019.SystemAdmin
             else
                 this.choice_txb.Enabled = false;
         }
-
         protected void ddl_question_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.ddl_question.SelectedValue == "1")
@@ -160,7 +159,6 @@ namespace QApractice1019.SystemAdmin
                 this.title_tbx.Text = string.Empty;
             }
         }
-
         protected void ddl_common_SelectedIndexChanged(object sender, EventArgs e)
         {
             string qidtxt = this.ddl_common.SelectedValue.ToString();
@@ -177,7 +175,6 @@ namespace QApractice1019.SystemAdmin
         {
             Response.Redirect("QAList.aspx");
         }
-
         protected void deleteQ_btn_Click(object sender, EventArgs e)
         {
             string qaidtxt = this.Request.QueryString["ID"].ToString();

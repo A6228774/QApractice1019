@@ -2,6 +2,7 @@
 using QA.ORM.DBModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -30,6 +31,43 @@ namespace QApractice1019.SystemAdmin
                 this.gv_questionsbank.Visible = false;
                 this.ltl_NoQuestion.Visible = true;
             }
+
+        }
+        protected void gv_questionsbank_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DropDownList ddl = (e.Row.FindControl("ddl_type") as DropDownList);
+                int qid = int.Parse(e.Row.Cells[0].Text);
+
+                ddl.DataSource = QAsManager.GetQuestionsyQID(qid);
+                ddl.DataBind();
+
+                if(ddl.SelectedValue == "TB")
+                {
+                    ddl.SelectedItem.Text = "文字方塊";
+                }
+                else if(ddl.SelectedValue == "RB")
+                {
+                    ddl.SelectedItem.Text = "單選方塊";
+                }
+                else if (ddl.SelectedValue == "CB")
+                {
+                    ddl.SelectedItem.Text = "複選方塊";
+                }
+            }
+        }
+
+        public string ConvertNullableBool(object cq)
+        {
+            if (cq != null)
+            {
+                return (bool)cq ? "是" : "否";
+            }
+            else
+            {
+                return "-";
+            }
         }
         private int GetCurrentPage()
         {
@@ -44,7 +82,6 @@ namespace QApractice1019.SystemAdmin
                 return 1;
             return intPage;
         }
-
         private List<QuestionsTable> GetPagedDataTable(List<QuestionsTable> list)
         {
             int startIndex = (this.GetCurrentPage() - 1) * 10;
