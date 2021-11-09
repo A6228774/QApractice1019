@@ -51,7 +51,7 @@ namespace QApractice1019
                         {
                             Panel pnl_question = new Panel();
                             int qid = int.Parse(item.QID.ToString());
-                            var question = QAsManager.GetQuestionDetail(qid);
+                            var question = QuestionsManager.GetQuestionDetail(qid);
 
                             if (item.Type == "TB")
                             {
@@ -119,7 +119,7 @@ namespace QApractice1019
                         Panel pnl_question = new Panel();
                         int qid = int.Parse(item.QuestionID.ToString());
 
-                        var question = QAsManager.GetQuestionDetail(qid);
+                        var question = QuestionsManager.GetQuestionDetail(qid);
 
                         if (question.QuestionType.ToString() == "TB")
                         {
@@ -208,7 +208,7 @@ namespace QApractice1019
                     {
                         ConfirmModel resp = new ConfirmModel();
                         int qid = int.Parse(item.QuestionID.ToString());
-                        var q = QAsManager.GetQuestionDetail(qid);
+                        var q = QuestionsManager.GetQuestionDetail(qid);
 
                         resp.QID = qid;
                         resp.Title = q.QuestionTitle;
@@ -303,7 +303,7 @@ namespace QApractice1019
                 {
                     ConfirmModel resp = new ConfirmModel();
                     int qid = int.Parse(item.QuestionID.ToString());
-                    var q = QAsManager.GetQuestionDetail(qid);
+                    var q = QuestionsManager.GetQuestionDetail(qid);
 
                     resp.QID = qid;
                     resp.Title = q.QuestionTitle;
@@ -417,7 +417,7 @@ namespace QApractice1019
         {
             int cid = int.Parse(question.ChoiceID.ToString());
             ChoiceTable choices = new ChoiceTable();
-            choices = QAsManager.GetChoiceList(cid);
+            choices = QuestionsManager.GetChoiceList(cid);
 
             List<string> list = new List<string>();
             if (choices.ChoiceCount == 1)

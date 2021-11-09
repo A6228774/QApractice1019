@@ -14,7 +14,7 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var list = QAsManager.GetQuestionsList();
+            var list = QuestionsManager.GetQuestionsList();
 
             if (list.Count > 0)  // 檢查有無資料
             {
@@ -40,7 +40,7 @@ namespace QApractice1019.SystemAdmin
                 DropDownList ddl = (e.Row.FindControl("ddl_type") as DropDownList);
                 int qid = int.Parse(e.Row.Cells[0].Text);
 
-                ddl.DataSource = QAsManager.GetQuestionsyQID(qid);
+                ddl.DataSource = QuestionsManager.GetQuestionsListbyQID(qid);
                 ddl.DataBind();
 
                 if(ddl.SelectedValue == "TB")

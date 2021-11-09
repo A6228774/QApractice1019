@@ -17,7 +17,7 @@ namespace QApractice1019.SystemAdmin
             {
                 string qaidtxt = this.Request.QueryString["ID"].ToString();
                 int qaid = int.Parse(qaidtxt);
-                var list = QAsManager.GetQuestionsListbyQAID(qaid);
+                var list = QuestionsManager.GetQuestionsListbyQAID(qaid);
 
                 if (list.Count == 0)
                 {
@@ -113,14 +113,14 @@ namespace QApractice1019.SystemAdmin
                     choicelist.FifthChoice = choicearray[4].ToString();
                     choicelist.SixthChoice = choicearray[5].ToString();
                 }
-                QAsManager.CreateChoices(choicelist);
+                QuestionsManager.CreateChoices(choicelist);
             }
             else
             {
                 questions.ChoiceID = null;
             }
 
-            QAsManager.CreateQuestions(questions);
+            QuestionsManager.CreateQuestions(questions);
 
             QA_Question design = new QA_Question();
 
@@ -134,7 +134,7 @@ namespace QApractice1019.SystemAdmin
                 //HttpContext.Current.Session["newQADesign"] = this.gv_QuestionList.
             }
 
-            QAsManager.InsertQuestions(design);
+            QuestionsManager.InsertQuestions(design);
             Response.Redirect(Request.RawUrl);
         }
         protected void ddl_type_SelectedIndexChanged(object sender, EventArgs e)
@@ -164,7 +164,7 @@ namespace QApractice1019.SystemAdmin
             string qidtxt = this.ddl_common.SelectedValue.ToString();
             int qid = int.Parse(qidtxt);
 
-            var QuestionInfo = QAsManager.GetQuestionDetail(qid);
+            var QuestionInfo = QuestionsManager.GetQuestionDetail(qid);
 
             this.title_tbx.Text = QuestionInfo.QuestionTitle;
             this.ddl_type.SelectedValue = QuestionInfo.QuestionType;

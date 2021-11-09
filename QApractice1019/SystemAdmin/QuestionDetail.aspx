@@ -12,12 +12,7 @@
         <tr>
             <td>問題種類：</td>
             <td>
-                <asp:Literal ID="Literal1" runat="server"></asp:Literal></td>
-        </tr>
-        <tr>
-            <td>是否必填：</td>
-            <td>
-                <asp:Literal ID="ltl_Mustkey" runat="server"></asp:Literal></td>
+                <asp:Literal ID="ltl_type" runat="server"></asp:Literal></td>
         </tr>
         <tr>
             <td>選項：</td>
@@ -27,8 +22,8 @@
         <tr>
             <td>加入常用問題庫：</td>
             <td>
-                <asp:CheckBox ID="cbx_common" runat="server" />
+                <asp:CheckBox ID="cbx_common" runat="server"/>
         </tr>
     </table>
-    <asp:Button ID="btn_cancel" runat="server" Text="取消" OnClick="btn_cancel_Click" /><asp:Button ID="btn_save" runat="server" Text="保存" />
+    <asp:Button ID="btn_cancel" runat="server" Text="取消" OnClick="btn_cancel_Click" /><asp:Button ID="btn_save" runat="server" Text="保存" OnClick="btn_save_Click" />
 </asp:Content>

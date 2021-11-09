@@ -250,7 +250,7 @@ namespace QApractice1019
         {
             int cid = int.Parse(question.CID.ToString());
             ChoiceTable choices = new ChoiceTable();
-            choices = QAsManager.GetChoiceList(cid);
+            choices = QuestionsManager.GetChoiceList(cid);
 
             List<string> list = new List<string>();
             if (choices.ChoiceCount == 1)
