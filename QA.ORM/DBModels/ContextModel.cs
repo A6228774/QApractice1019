@@ -24,10 +24,6 @@ namespace QA.ORM.DBModels
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChoiceTable>()
-                .HasOptional(e => e.ChoiceTable1)
-                .WithRequired(e => e.ChoiceTable2);
-
             modelBuilder.Entity<QAInfo>()
                 .HasMany(e => e.QA_Question)
                 .WithRequired(e => e.QAInfo)
@@ -45,11 +41,6 @@ namespace QA.ORM.DBModels
 
             modelBuilder.Entity<QuestionsTable>()
                 .HasMany(e => e.QA_Question)
-                .WithRequired(e => e.QuestionsTable)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<QuestionsTable>()
-                .HasMany(e => e.Respondent_answer)
                 .WithRequired(e => e.QuestionsTable)
                 .WillCascadeOnDelete(false);
 

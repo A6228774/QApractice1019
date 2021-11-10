@@ -13,7 +13,6 @@ namespace QA.ORM.DBModels
         public QuestionsTable()
         {
             QA_Question = new HashSet<QA_Question>();
-            Respondent_answer = new HashSet<Respondent_answer>();
         }
 
         [Key]
@@ -33,8 +32,5 @@ namespace QA.ORM.DBModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QA_Question> QA_Question { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Respondent_answer> Respondent_answer { get; set; }
     }
 }
