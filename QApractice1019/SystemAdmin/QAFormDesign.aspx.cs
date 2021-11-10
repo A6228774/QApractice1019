@@ -200,6 +200,7 @@ namespace QApractice1019.SystemAdmin
                 dt.Rows.Add(qid, title, type, newq.MustKey);
                 this.gv_QuestionList.DataSource = dt;
                 this.gv_QuestionList.DataBind();
+                HttpContext.Current.Session["Tempdt"] = dt;
             }
 
             this.ddl_question.SelectedValue = "0";
@@ -230,6 +231,8 @@ namespace QApractice1019.SystemAdmin
                 this.title_tbx.Text = string.Empty;
                 this.title_tbx.Enabled = true;
                 this.ddl_type.Enabled = true;
+                this.choice_txb.Text = string.Empty;
+                this.ddl_type.SelectedValue = "0";
             }
         }
         protected void ddl_common_SelectedIndexChanged(object sender, EventArgs e)
@@ -464,10 +467,32 @@ namespace QApractice1019.SystemAdmin
                         this.choice_txb.Text = choices;
                         this.choice_txb.Enabled = true;
                     }
-
+                    HttpContext.Current.Session["TempQchange"] = detail;
                 }
-                HttpContext.Current.Session["TempQchange"] = detail;
             }
+            if (e.CommandName == "deleteQrow")
+            {
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = gv_QuestionList.Rows[rowIndex];
+
+                string qaidtxt = this.Request.QueryString["ID"].ToString();
+                int qaid = int.Parse(qaidtxt);
+                int qid = int.Parse(row.Cells[0].Text);
+
+                if (QAsManager.CheckQuestionInQA(qaid, qid))
+                {
+                    QAsManager.DeleteQuestion(qaid, qid);
+                }
+                else
+                {
+                    DataTable dt = (DataTable)HttpContext.Current.Session["Tempdt"];
+                    dt.Rows[rowIndex].Delete();
+                    HttpContext.Current.Session["Tempdt"] = dt;
+                    gv_QuestionList.DataSource = dt;
+                    gv_QuestionList.DataBind();
+                }
+            }
+
         }
     }
 }

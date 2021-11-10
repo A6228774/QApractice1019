@@ -36,7 +36,7 @@
             <td>常用問題：
             </td>
             <td>
-                <asp:DropDownList ID="ddl_common" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="QuestionTitle" DataValueField="QuestionID" OnSelectedIndexChanged="ddl_common_SelectedIndexChanged" Visible="False">
+                <asp:DropDownList ID="ddl_common" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="QuestionTitle" DataValueField="QuestionID" OnSelectedIndexChanged="ddl_common_SelectedIndexChanged" Visible="False" AppendDataBoundItems="True">
                     <asp:ListItem Selected="True" Value="0">無</asp:ListItem>
                 </asp:DropDownList>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DefaultConnectionString %>" SelectCommand="SELECT * FROM [QuestionsTable] WHERE ([CommonQuestion] = @CommonQuestion)">
@@ -75,7 +75,7 @@
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');"/>
+                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');" CommandName="deleteQrow" CommandArgument="<%# Container.DataItemIndex %>"/>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>

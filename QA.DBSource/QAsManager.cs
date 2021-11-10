@@ -195,5 +195,29 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static bool CheckQuestionInQA(int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.QA_Question
+                         where item.QAID == qaid && item.QuestionID == qid
+                         select item);
+
+                    var obj = query.FirstOrDefault();
+                    if (obj == null)
+                        return false;
+                    else
+                        return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return true;
+            }
+        }
     }
 }
