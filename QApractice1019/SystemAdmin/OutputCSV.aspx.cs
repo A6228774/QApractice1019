@@ -20,7 +20,7 @@ namespace QApractice1019.SystemAdmin
                 string qaidtxt = this.Request.QueryString["ID"].ToString();
                 int qaid = int.Parse(qaidtxt);
 
-                var list = RespondentInfoManager.GetAllAnswerList(qaid);
+                var list = RespondentInfoManager.GetResponsesList(qaid);
 
                 if (list.Count > 0)  // 檢查有無資料
                 {
@@ -45,12 +45,12 @@ namespace QApractice1019.SystemAdmin
         }        
         protected void output_btn_Click(object sender, EventArgs e)
         {
-            string filepath = @"D:\Practice\QApractice1019\QApractice1019\QA_answerData.csv";
             string qaidtxt = this.Request.QueryString["ID"].ToString();
             int qaid = int.Parse(qaidtxt);
+            string filepath = $@"D:\Practice\QApractice1019\QApractice1019\QA_answerData{qaidtxt}_{DateTime.Now.ToString()}.csv";
 
-            var list = RespondentInfoManager.GetAllAnswerList(qaid);
-            CSVGenerator<CSVOutput_View>(true, filepath, list);
+            var list = RespondentInfoManager.GetAllResponsesbyQAID(qaid);
+            CSVGenerator<All_Answer_View>(true, filepath, list);
         }
 
         private int GetCurrentPage()

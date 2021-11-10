@@ -415,6 +415,7 @@ namespace QApractice1019.SystemAdmin
             this.choice_txb.Text = string.Empty;
             this.edit_btn.Visible = false;
             this.add_btn.Visible = true;
+            Response.Redirect(Request.RawUrl);
         }
         protected void gv_QuestionList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -491,6 +492,7 @@ namespace QApractice1019.SystemAdmin
                     gv_QuestionList.DataSource = dt;
                     gv_QuestionList.DataBind();
                 }
+                Response.Redirect(Request.RawUrl);
             }
 
         }

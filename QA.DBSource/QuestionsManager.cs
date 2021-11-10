@@ -44,7 +44,7 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
-        public static void InsertQuestions(QA_Question design)
+        public static void InsertNewQuestions(QA_Question design)
         {
             try
             {
@@ -250,6 +250,26 @@ namespace QA.DBSource
                 {
                     var query = (from item in context.QuestionsTable
                                  orderby item.QuestionID descending
+                                 select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
+        public static ChoiceTable GetFinalCID()
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.ChoiceTable
+                                 orderby item.ChoiceID descending
                                  select item);
 
                     var obj = query.FirstOrDefault();

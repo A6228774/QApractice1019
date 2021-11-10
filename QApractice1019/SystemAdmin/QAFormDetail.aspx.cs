@@ -71,7 +71,7 @@ namespace QApractice1019.SystemAdmin
             }
             else
             {
-                QAsManager.CreateCustomizeQA(temp);
+                QAsManager.CreateQAInfo(temp);
                 Response.Redirect("QAFormDesign.aspx?ID=" + temp.QAID);
 
             }

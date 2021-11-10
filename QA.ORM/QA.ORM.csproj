@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBModels\All_Answer_View.cs" />
     <Compile Include="DBModels\ChoiceTable.cs" />
     <Compile Include="DBModels\ContextModel.cs" />
     <Compile Include="DBModels\CSVOutput_View.cs" />

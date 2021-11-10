@@ -57,7 +57,7 @@ namespace QA.DBSource
                 return true;
             }
         }
-        public static bool CheckRepeatAnswer(Guid respondentid, int qaid)
+        public static bool CheckRepeatResponse(Guid respondentid, int qaid)
         {
             try
             {
@@ -153,7 +153,28 @@ namespace QA.DBSource
                 return null;
             }
         }
-        public static List<CSVOutput_View> GetAllAnswerList(int qaid)
+        public static List<All_Answer_View> GetAllResponsesbyQAID(int qaid)
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.All_Answer_View
+                                 where item.QAID == qaid
+                                 orderby item.AnswerDate descending
+                                 select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
+        public static List<CSVOutput_View> GetResponsesList(int qaid)
         {
             using (ContextModel context = new ContextModel())
             {
@@ -195,6 +216,5 @@ namespace QA.DBSource
                 return null;
             }
         }
-
     }
 }

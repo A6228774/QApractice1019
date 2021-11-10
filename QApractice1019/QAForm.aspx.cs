@@ -193,7 +193,7 @@ namespace QApractice1019
                 var user = RespondentInfoManager.GetRespodentInfo(nametxt, emailtxt);
                 Guid rid = user.RespondentID;
 
-                if (RespondentInfoManager.CheckRepeatAnswer(rid, qaid))
+                if (RespondentInfoManager.CheckRepeatResponse(rid, qaid))
                 {
                     this.ltlMsg.Visible = true;
                     this.ltlMsg.Text = "<span style='color:red'>此用戶已經回答過本問卷</span>";

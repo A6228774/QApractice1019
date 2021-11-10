@@ -90,7 +90,7 @@ namespace QA.DBSource
                 }
             }
         }
-        public static void CreateCustomizeQA(QAInfo QAInfo)
+        public static void CreateQAInfo(QAInfo QAInfo)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
-        public static void DeleteQuestion(int qaid, int qid)
+        public static void DeleteQuestionFromQA(int qaid, int qid)
         {
             try
             {
