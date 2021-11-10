@@ -211,5 +211,25 @@ namespace QA.DBSource
                 }
             }
         }
+        public static QuestionsTable GetFinalQID()
+        {
+            using (ContextModel context = new ContextModel())
+            {
+                try
+                {
+                    var query = (from item in context.QuestionsTable
+                                 orderby item.QuestionID descending
+                                 select item);
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(ex);
+                    return null;
+                }
+            }
+        }
     }
 }

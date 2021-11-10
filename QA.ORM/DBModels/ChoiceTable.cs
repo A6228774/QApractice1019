@@ -9,6 +9,12 @@ namespace QA.ORM.DBModels
     [Table("ChoiceTable")]
     public partial class ChoiceTable
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ChoiceTable()
+        {
+            Respondent_answer = new HashSet<Respondent_answer>();
+        }
+
         [Key]
         public int ChoiceID { get; set; }
 
@@ -31,5 +37,12 @@ namespace QA.ORM.DBModels
         public string SixthChoice { get; set; }
 
         public int ChoiceCount { get; set; }
+
+        public virtual ChoiceTable ChoiceTable1 { get; set; }
+
+        public virtual ChoiceTable ChoiceTable2 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Respondent_answer> Respondent_answer { get; set; }
     }
 }

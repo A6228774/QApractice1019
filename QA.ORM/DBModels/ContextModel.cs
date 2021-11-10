@@ -24,9 +24,48 @@ namespace QA.ORM.DBModels
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ChoiceTable>()
+                .HasOptional(e => e.ChoiceTable1)
+                .WithRequired(e => e.ChoiceTable2);
+
+            modelBuilder.Entity<QAInfo>()
+                .HasMany(e => e.QA_Question)
+                .WithRequired(e => e.QAInfo)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QAInfo>()
+                .HasMany(e => e.Respondent_answer)
+                .WithRequired(e => e.QAInfo)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QAInfo>()
+                .HasMany(e => e.ResponseTable)
+                .WithRequired(e => e.QAInfo)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QuestionsTable>()
+                .HasMany(e => e.QA_Question)
+                .WithRequired(e => e.QuestionsTable)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QuestionsTable>()
+                .HasMany(e => e.Respondent_answer)
+                .WithRequired(e => e.QuestionsTable)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<RespondentInfo>()
+                .HasMany(e => e.Respondent_answer)
+                .WithRequired(e => e.RespondentInfo)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<RespondentInfo>()
                 .HasMany(e => e.ResponseTable)
                 .WithRequired(e => e.RespondentInfo)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ResponseTable>()
+                .HasMany(e => e.Respondent_answer)
+                .WithRequired(e => e.ResponseTable)
                 .WillCascadeOnDelete(false);
         }
     }

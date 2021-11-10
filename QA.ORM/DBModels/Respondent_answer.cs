@@ -31,5 +31,15 @@ namespace QA.ORM.DBModels
         [Column(Order = 3)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RID { get; set; }
+
+        public virtual ChoiceTable ChoiceTable { get; set; }
+
+        public virtual QAInfo QAInfo { get; set; }
+
+        public virtual QuestionsTable QuestionsTable { get; set; }
+
+        public virtual RespondentInfo RespondentInfo { get; set; }
+
+        public virtual ResponseTable ResponseTable { get; set; }
     }
 }

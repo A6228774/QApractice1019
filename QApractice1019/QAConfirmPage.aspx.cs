@@ -131,7 +131,7 @@ namespace QApractice1019
                 {
                     Respondent_answer answer = new Respondent_answer();
                     answer.RespondentID = info.RespondentID;
-                    answer.RID = rt.ResponseID;
+                    answer.RID = rt.RID;
                     answer.QAID = qaid;
                     answer.QuestionID = item.QID;
 
@@ -188,7 +188,7 @@ namespace QApractice1019
                 {
                     Respondent_answer answer = new Respondent_answer();
                     answer.RespondentID = user.RespondentID;
-                    answer.RID = rt.ResponseID;
+                    answer.RID = rt.RID;
                     answer.QAID = qaid;
                     answer.QuestionID = item.QID;
 

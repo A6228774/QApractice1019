@@ -21,5 +21,9 @@ namespace QA.ORM.DBModels
         [Key]
         [Column(Order = 2)]
         public bool MustKey { get; set; }
+
+        public virtual QAInfo QAInfo { get; set; }
+
+        public virtual QuestionsTable QuestionsTable { get; set; }
     }
 }
