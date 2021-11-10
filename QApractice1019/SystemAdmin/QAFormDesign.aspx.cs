@@ -1,6 +1,7 @@
 ﻿using QA.DBSource;
 using QA.ORM.DBModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -114,12 +115,24 @@ namespace QApractice1019.SystemAdmin
 
                 if (type != "TB")
                 {
+                    var c = QuestionsManager.GetFinalCID();
+                    int lastcid = int.Parse(c.ChoiceID.ToString());
                     int choiceid = new int();
+
                     string choicetxt = this.choice_txb.Text;
                     char sperator = char.Parse(";");
-                    string[] choicearray = choicetxt.Split(sperator);
-                    int choice_cnt = choicearray.Count();
+                    string[] choicestring = choicetxt.Split(sperator);
+                    ArrayList cArray = new ArrayList();
 
+                    foreach (string item in choicestring)
+                    {
+                        if (!string.IsNullOrEmpty(item))
+                        {
+                            cArray.Add(item);
+                        }
+                    }
+
+                    int choice_cnt = cArray.Count;
                     if (choice_cnt > 6)
                     {
                         this.ltl_errorMsg.Text = "選項最多6個項目";
@@ -133,42 +146,42 @@ namespace QApractice1019.SystemAdmin
 
                     if (choice_cnt == 1)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
                     }
                     else if (choice_cnt == 2)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
-                        choicelist.SecondChoice = choicearray[1].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
+                        choicelist.SecondChoice = choicestring[1].ToString();
                     }
                     else if (choice_cnt == 3)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
-                        choicelist.SecondChoice = choicearray[1].ToString();
-                        choicelist.ThirdChoice = choicearray[2].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
+                        choicelist.SecondChoice = choicestring[1].ToString();
+                        choicelist.ThirdChoice = choicestring[2].ToString();
                     }
                     else if (choice_cnt == 4)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
-                        choicelist.SecondChoice = choicearray[1].ToString();
-                        choicelist.ThirdChoice = choicearray[2].ToString();
-                        choicelist.ForthChoice = choicearray[3].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
+                        choicelist.SecondChoice = choicestring[1].ToString();
+                        choicelist.ThirdChoice = choicestring[2].ToString();
+                        choicelist.ForthChoice = choicestring[3].ToString();
                     }
                     else if (choice_cnt == 5)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
-                        choicelist.SecondChoice = choicearray[1].ToString();
-                        choicelist.ThirdChoice = choicearray[2].ToString();
-                        choicelist.ForthChoice = choicearray[3].ToString();
-                        choicelist.FifthChoice = choicearray[4].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
+                        choicelist.SecondChoice = choicestring[1].ToString();
+                        choicelist.ThirdChoice = choicestring[2].ToString();
+                        choicelist.ForthChoice = choicestring[3].ToString();
+                        choicelist.FifthChoice = choicestring[4].ToString();
                     }
                     else if (choice_cnt == 6)
                     {
-                        choicelist.FirstChoice = choicearray[0].ToString();
-                        choicelist.SecondChoice = choicearray[1].ToString();
-                        choicelist.ThirdChoice = choicearray[2].ToString();
-                        choicelist.ForthChoice = choicearray[3].ToString();
-                        choicelist.FifthChoice = choicearray[4].ToString();
-                        choicelist.SixthChoice = choicearray[5].ToString();
+                        choicelist.FirstChoice = choicestring[0].ToString();
+                        choicelist.SecondChoice = choicestring[1].ToString();
+                        choicelist.ThirdChoice = choicestring[2].ToString();
+                        choicelist.ForthChoice = choicestring[3].ToString();
+                        choicelist.FifthChoice = choicestring[4].ToString();
+                        choicelist.SixthChoice = choicestring[5].ToString();
                     }
 
                     clist.Add(choicelist);
@@ -298,7 +311,7 @@ namespace QApractice1019.SystemAdmin
                     List<QA_Question> QA_qlist = (List<QA_Question>)HttpContext.Current.Session["TempAddQ"];
                     foreach (QA_Question newQ in QA_qlist)
                     {
-                        QuestionsManager.InsertQuestions(newQ);
+                        QuestionsManager.InsertNewQuestions(newQ);
                     }
                 }
                 else
@@ -327,7 +340,7 @@ namespace QApractice1019.SystemAdmin
                     List<QA_Question> QA_qlist = (List<QA_Question>)HttpContext.Current.Session["TempAddQ"];
                     foreach (QA_Question newQ in QA_qlist)
                     {
-                        QuestionsManager.InsertQuestions(newQ);
+                        QuestionsManager.InsertNewQuestions(newQ);
                     }
                 }
             }
@@ -482,7 +495,7 @@ namespace QApractice1019.SystemAdmin
 
                 if (QAsManager.CheckQuestionInQA(qaid, qid))
                 {
-                    QAsManager.DeleteQuestion(qaid, qid);
+                    QAsManager.DeleteQuestionFromQA(qaid, qid);
                 }
                 else
                 {
