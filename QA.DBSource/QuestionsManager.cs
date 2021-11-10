@@ -89,6 +89,35 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static bool UpdateChoices(int cid, ChoiceTable choices)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.ChoiceTable.Where(o => o.ChoiceID == cid).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        obj.FirstChoice = choices.FirstChoice;
+                        obj.SecondChoice = choices.SecondChoice;
+                        obj.ThirdChoice = choices.ThirdChoice;
+                        obj.ForthChoice = choices.ForthChoice;
+                        obj.FifthChoice = choices.FifthChoice;
+                        obj.SixthChoice = choices.SixthChoice;
+                        obj.ChoiceCount = choices.ChoiceCount;
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
+            }
+        }
         public static bool UpdateQuestion(int qid, QuestionsTable questions)
         {
             try
@@ -99,7 +128,9 @@ namespace QA.DBSource
 
                     if(obj != null)
                     {
-
+                        obj.QuestionTitle = questions.QuestionTitle;
+                        obj.QuestionType = questions.QuestionType;
+                        obj.ChoiceID = questions.ChoiceID;
                     }
 
                     context.SaveChanges();

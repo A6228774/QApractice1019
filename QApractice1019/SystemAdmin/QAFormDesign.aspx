@@ -48,11 +48,13 @@
         </tr>
         <tr>
             <td>
-                <asp:Button ID="add_btn" runat="server" Text="加入" OnClick="add_btn_Click" /></td>
+                <asp:Button ID="add_btn" runat="server" Text="加入" OnClick="add_btn_Click" />
+                <asp:Button ID="edit_btn" runat="server" Text="保存" Visible="False" OnClick="edit_btn_Click"/>
+            </td>
         </tr>
     </table>
     <asp:Literal ID="ltl_errorMsg" runat="server"></asp:Literal></br>
-    <asp:GridView ID="gv_QuestionList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" OnRowDataBound="gv_QuestionList_RowDataBound">
+    <asp:GridView ID="gv_QuestionList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" OnRowDataBound="gv_QuestionList_RowDataBound" OnRowCommand="gv_QuestionList_RowCommand">
         <Columns>
             <asp:BoundField DataField="QuestionID" HeaderText="#" />
             <asp:BoundField DataField="QuestionTitle" HeaderText="問題" />
@@ -68,12 +70,12 @@
             <asp:CheckBoxField HeaderText="必填" ReadOnly="True" DataField="MustKey" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="edit_btn" runat="server" Text="編輯" CommandName="Edit" CommandArgument="<%# Container.DataItemIndex %>" OnClick="edit_btn_Click"/>                
+                    <asp:Button ID="edit_btn" runat="server" Text="編輯" CommandName="Q_edit" CommandArgument="<%# Container.DataItemIndex %>"/>                
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');" OnClick="deleteQ_btn_Click" />
+                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');"/>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
@@ -89,5 +91,5 @@
     </asp:GridView>
     <asp:Literal ID="ltl_NoQuestion" runat="server" Visible="False"></asp:Literal></br>
     <asp:Button ID="cancel_btn" runat="server" Text="取消" OnClick="cancel_btn_Click" />
-    <asp:Button ID="save_btn" runat="server" Text="保存" OnClick="save_btn_Click" />
+    <asp:Button ID="save_btn" runat="server" Text="送出" OnClick="save_btn_Click" />
 </asp:Content>

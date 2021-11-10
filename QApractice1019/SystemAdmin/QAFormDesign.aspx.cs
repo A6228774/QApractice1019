@@ -58,6 +58,7 @@ namespace QApractice1019.SystemAdmin
             if (this.ddl_question.SelectedValue == "1")
             {
                 QuestionsTable questions = new QuestionsTable();
+                List<QA_Question> commonlist = new List<QA_Question>();
                 QA_Question common = new QA_Question();
 
                 common.QAID = qaid;
@@ -84,8 +85,9 @@ namespace QApractice1019.SystemAdmin
                 {
                     common.MustKey = false;
                 }
+                commonlist.Add(common);
 
-                HttpContext.Current.Session["TempCommonQ"] = common;
+                HttpContext.Current.Session["TempCommonQ"] = commonlist;
                 //QuestionsManager.InsertCommonQuestions(common);
 
                 DataTable dt = (DataTable)HttpContext.Current.Session["Tempdt"];
@@ -95,10 +97,15 @@ namespace QApractice1019.SystemAdmin
             }
             else
             {
+                List<QuestionsTable> newQlist = new List<QuestionsTable>();
                 QuestionsTable questions = new QuestionsTable();
+                List<QA_Question> QAq = new List<QA_Question>();
                 QA_Question newq = new QA_Question();
 
-                int qid = new int();
+                var obj = QuestionsManager.GetFinalQID();
+                int lastqid = int.Parse(obj.QuestionID.ToString());
+                int qid = lastqid + 1;
+
                 string title = this.title_tbx.Text;
                 string type = this.ddl_type.SelectedValue.ToString();
 
@@ -119,6 +126,7 @@ namespace QApractice1019.SystemAdmin
                         return;
                     }
 
+                    List<ChoiceTable> clist = new List<ChoiceTable>();
                     ChoiceTable choicelist = new ChoiceTable();
                     choicelist.ChoiceCount = choice_cnt;
                     questions.ChoiceID = choiceid;
@@ -163,19 +171,19 @@ namespace QApractice1019.SystemAdmin
                         choicelist.SixthChoice = choicearray[5].ToString();
                     }
 
-                    HttpContext.Current.Session["TempChoice"] = choicelist;
-                    //QuestionsManager.CreateChoices(choicelist);
+                    clist.Add(choicelist);
+                    HttpContext.Current.Session["TempChoice"] = clist;
                 }
                 else
                 {
                     questions.ChoiceID = null;
                 }
 
-                HttpContext.Current.Session["TempNewQ"] = questions;
-                //QuestionsManager.CreateQuestions(questions);
+                newQlist.Add(questions);
+                HttpContext.Current.Session["TempNewQ"] = newQlist;
 
                 newq.QAID = qaid;
-                newq.QuestionID = questions.QuestionID;
+                newq.QuestionID = qid;
                 if (this.must_tbx.Checked)
                 {
                     newq.MustKey = true;
@@ -184,8 +192,9 @@ namespace QApractice1019.SystemAdmin
                 {
                     newq.MustKey = false;
                 }
-                HttpContext.Current.Session["TempAddQ"] = newq;
-                //QuestionsManager.InsertQuestions(qa_q);
+                QAq.Add(newq);
+
+                HttpContext.Current.Session["TempAddQ"] = QAq;
 
                 DataTable dt = (DataTable)HttpContext.Current.Session["Tempdt"];
                 dt.Rows.Add(qid, title, type, newq.MustKey);
@@ -251,12 +260,158 @@ namespace QApractice1019.SystemAdmin
         }
         protected void save_btn_Click(object sender, EventArgs e)
         {
-            
+            if (HttpContext.Current.Session["TempCommonQ"] == null && HttpContext.Current.Session["TempAddQ"] == null)
+            {
+                Response.Redirect("QAList.aspx");
+            }
+            else
+            {
+                if (HttpContext.Current.Session["TempCommonQ"] != null && HttpContext.Current.Session["TempAddQ"] == null)
+                {
+                    List<QA_Question> commonlist = (List<QA_Question>)HttpContext.Current.Session["TempCommonQ"];
+
+                    foreach (QA_Question common in commonlist)
+                    {
+                        QuestionsManager.InsertCommonQuestions(common);
+                    }
+                }
+                else if (HttpContext.Current.Session["TempCommonQ"] == null && HttpContext.Current.Session["TempAddQ"] != null)
+                {
+                    if (HttpContext.Current.Session["TempChoice"] != null)
+                    {
+                        List<ChoiceTable> clist = (List<ChoiceTable>)HttpContext.Current.Session["TempChoice"];
+                        foreach (ChoiceTable ct in clist)
+                        {
+                            QuestionsManager.CreateChoices(ct);
+                        }
+                    }
+
+                    List<QuestionsTable> newQlist = (List<QuestionsTable>)HttpContext.Current.Session["TempNewQ"];
+                    foreach (QuestionsTable newQ in newQlist)
+                    {
+                        QuestionsManager.CreateQuestions(newQ);
+                    }
+
+                    List<QA_Question> QA_qlist = (List<QA_Question>)HttpContext.Current.Session["TempAddQ"];
+                    foreach (QA_Question newQ in QA_qlist)
+                    {
+                        QuestionsManager.InsertQuestions(newQ);
+                    }
+                }
+                else
+                {
+                    List<QA_Question> commonlist = (List<QA_Question>)HttpContext.Current.Session["TempCommonQ"];
+                    foreach (QA_Question common in commonlist)
+                    {
+                        QuestionsManager.InsertCommonQuestions(common);
+                    }
+
+                    if (HttpContext.Current.Session["TempChoice"] != null)
+                    {
+                        List<ChoiceTable> clist = (List<ChoiceTable>)HttpContext.Current.Session["TempChoice"];
+                        foreach (ChoiceTable ct in clist)
+                        {
+                            QuestionsManager.CreateChoices(ct);
+                        }
+                    }
+
+                    List<QuestionsTable> newQlist = (List<QuestionsTable>)HttpContext.Current.Session["TempNewQ"];
+                    foreach (QuestionsTable newQ in newQlist)
+                    {
+                        QuestionsManager.CreateQuestions(newQ);
+                    }
+
+                    List<QA_Question> QA_qlist = (List<QA_Question>)HttpContext.Current.Session["TempAddQ"];
+                    foreach (QA_Question newQ in QA_qlist)
+                    {
+                        QuestionsManager.InsertQuestions(newQ);
+                    }
+                }
+            }
             Response.Redirect("QAList.aspx");
         }
-        protected void deleteQ_btn_Click(object sender, EventArgs e)
+        protected void edit_btn_Click(object sender, EventArgs e)
         {
+            QuestionsTable qt = (QuestionsTable)HttpContext.Current.Session["TempQchange"];
 
+            if (qt != null)
+            {
+                int qid = qt.QuestionID;
+                qt.QuestionTitle = this.title_tbx.Text;
+                qt.QuestionType = this.ddl_type.SelectedValue.ToString();
+
+                if (qt.QuestionType != "TB")
+                {
+                    ChoiceTable choicelist = new ChoiceTable();
+
+                    int cid = int.Parse(qt.ChoiceID.ToString());
+                    string choicetxt = this.choice_txb.Text;
+                    char sperator = char.Parse(";");
+                    string[] choicearray = choicetxt.Split(sperator);
+                    int choice_cnt = choicearray.Count();
+
+                    if (choice_cnt == 1)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                    }
+                    else if (choice_cnt == 2)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.SecondChoice = choicearray[1].ToString();
+                    }
+                    else if (choice_cnt == 3)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.SecondChoice = choicearray[1].ToString();
+                        choicelist.ThirdChoice = choicearray[2].ToString();
+                    }
+                    else if (choice_cnt == 4)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.SecondChoice = choicearray[1].ToString();
+                        choicelist.ThirdChoice = choicearray[2].ToString();
+                        choicelist.ForthChoice = choicearray[3].ToString();
+                    }
+                    else if (choice_cnt == 5)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.SecondChoice = choicearray[1].ToString();
+                        choicelist.ThirdChoice = choicearray[2].ToString();
+                        choicelist.ForthChoice = choicearray[3].ToString();
+                        choicelist.FifthChoice = choicearray[4].ToString();
+                    }
+                    else if (choice_cnt == 6)
+                    {
+                        choicelist.FirstChoice = choicearray[0].ToString();
+                        choicelist.SecondChoice = choicearray[1].ToString();
+                        choicelist.ThirdChoice = choicearray[2].ToString();
+                        choicelist.ForthChoice = choicearray[3].ToString();
+                        choicelist.FifthChoice = choicearray[4].ToString();
+                        choicelist.SixthChoice = choicearray[5].ToString();
+                    }
+                    choicelist.ChoiceCount = choice_cnt;
+
+                    QuestionsManager.UpdateChoices(cid, choicelist);
+                }
+                else
+                {
+                    qt.ChoiceID = null;
+                }
+
+                QuestionsManager.UpdateQuestion(qid, qt);
+            }
+            else
+            {
+                return;
+            }
+
+            this.ddl_question.SelectedValue = "0";
+            this.ddl_common.Visible = false;
+            this.title_tbx.Text = string.Empty;
+            this.ddl_type.SelectedValue = "0";
+            this.choice_txb.Text = string.Empty;
+            this.edit_btn.Visible = false;
+            this.add_btn.Visible = true;
         }
         protected void gv_QuestionList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -283,8 +438,36 @@ namespace QApractice1019.SystemAdmin
                 }
             }
         }
-        protected void edit_btn_Click(object sender, EventArgs e)
+        protected void gv_QuestionList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "Q_edit")
+            {
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = gv_QuestionList.Rows[rowIndex];
+
+                int qid = int.Parse(row.Cells[0].Text);
+                var detail = QuestionsManager.GetQuestionDetail(qid);
+
+                if (detail != null)
+                {
+                    this.title_tbx.Text = detail.QuestionTitle;
+                    this.ddl_type.SelectedValue = detail.QuestionType.ToString();
+                    this.add_btn.Visible = false;
+                    this.edit_btn.Visible = true;
+
+                    if (detail.QuestionType != "TB")
+                    {
+                        int cid = int.Parse(detail.ChoiceID.ToString());
+                        var item = QuestionsManager.GetChoiceList(cid);
+
+                        string choices = string.Join(";", item.FirstChoice, item.SecondChoice, item.ThirdChoice, item.ForthChoice, item.FifthChoice, item.SixthChoice);
+                        this.choice_txb.Text = choices;
+                        this.choice_txb.Enabled = true;
+                    }
+
+                }
+                HttpContext.Current.Session["TempQchange"] = detail;
+            }
         }
     }
 }
