@@ -59,6 +59,21 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static void InsertCommonQuestions(QA_Question common)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    context.QA_Question.Add(common);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+        }
         public static void CreateChoices(ChoiceTable choices)
         {
             try

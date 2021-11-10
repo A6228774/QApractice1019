@@ -15,7 +15,9 @@
         <tr>
             <td>問題：</td>
             <td>
-                <asp:TextBox ID="title_tbx" runat="server"></asp:TextBox><asp:DropDownList ID="ddl_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddl_type_SelectedIndexChanged">
+                <asp:TextBox ID="title_tbx" runat="server"></asp:TextBox>
+                <asp:DropDownList ID="ddl_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddl_type_SelectedIndexChanged">
+                    <asp:ListItem Selected="True" Value="0">請選擇類別</asp:ListItem>
                     <asp:ListItem Value="TB">文字方塊</asp:ListItem>
                     <asp:ListItem Value="RB">單選方塊</asp:ListItem>
                     <asp:ListItem Value="CB">複選方塊</asp:ListItem>
@@ -31,35 +33,47 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">
-                <asp:DropDownList ID="ddl_common" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="QuestionTitle" DataValueField="QuestionID" OnSelectedIndexChanged="ddl_common_SelectedIndexChanged" Visible="False"></asp:DropDownList>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DefaultConnectionString %>" SelectCommand="SELECT [QuestionTitle], [QuestionID] FROM [QuestionsTable]"></asp:SqlDataSource>
+            <td>常用問題：
+            </td>
+            <td>
+                <asp:DropDownList ID="ddl_common" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="QuestionTitle" DataValueField="QuestionID" OnSelectedIndexChanged="ddl_common_SelectedIndexChanged" Visible="False">
+                    <asp:ListItem Selected="True" Value="0">無</asp:ListItem>
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DefaultConnectionString %>" SelectCommand="SELECT * FROM [QuestionsTable] WHERE ([CommonQuestion] = @CommonQuestion)">
+                    <SelectParameters>
+                        <asp:Parameter DefaultValue="True" Name="CommonQuestion" Type="Boolean" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
             </td>
         </tr>
         <tr>
             <td>
-                <asp:Button ID="add_btn" runat="server" Text="加入問題" OnClick="add_btn_Click" /></td>
+                <asp:Button ID="add_btn" runat="server" Text="加入" OnClick="add_btn_Click" /></td>
         </tr>
     </table>
     <asp:Literal ID="ltl_errorMsg" runat="server"></asp:Literal></br>
-    <asp:GridView ID="gv_QuestionList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
+    <asp:GridView ID="gv_QuestionList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4" OnRowDataBound="gv_QuestionList_RowDataBound">
         <Columns>
             <asp:BoundField DataField="QuestionID" HeaderText="#" />
             <asp:BoundField DataField="QuestionTitle" HeaderText="問題" />
             <asp:TemplateField HeaderText="問題種類">
                 <ItemTemplate>
-                    <asp:DropDownList ID="ddl_type" runat="server" Enabled="False">
+                    <asp:DropDownList ID="gvddl_type" runat="server" Enabled="False" DataValueField="QuestionType">
                         <asp:ListItem Value="TB">文字方塊</asp:ListItem>
                         <asp:ListItem Value="RB">單選方塊</asp:ListItem>
                         <asp:ListItem Value="CB">複選方塊</asp:ListItem>
                     </asp:DropDownList>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:CheckBoxField HeaderText="必填" ReadOnly="True" />
-            <asp:BoundField HeaderText="選項" />
+            <asp:CheckBoxField HeaderText="必填" ReadOnly="True" DataField="MustKey" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');" onclick="deleteQ_btn_Click"/>
+                    <asp:Button ID="edit_btn" runat="server" Text="編輯" CommandName="Edit" CommandArgument="<%# Container.DataItemIndex %>" OnClick="edit_btn_Click"/>                
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:Button ID="deleteQ_btn" runat="server" Text="刪除" OnClientClick="return confirm('確認要從本問卷中移除此問題?問卷資料將無法復原');" OnClick="deleteQ_btn_Click" />
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
