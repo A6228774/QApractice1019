@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:Button ID="output_btn" runat="server" Text="匯出" OnClick="output_btn_Click"/></br>
+    <asp:Button ID="output_btn" runat="server" Text="匯出" OnClick="output_btn_Click"/><asp:Literal ID="ltl_Msg" runat="server" Visible="False"></asp:Literal></br>
     <asp:GridView ID="gv_QAList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CC9966" BorderStyle="None" BorderWidth="1px" CellPadding="4">
         <Columns>
             <asp:BoundField HeaderText="姓名" DataField="Name" />
@@ -27,5 +27,6 @@
         <SortedDescendingHeaderStyle BackColor="#7E0000" />
     </asp:GridView>
     <asp:Literal ID="ltl_NoData" runat="server"></asp:Literal>
-    <uc1:ucPager runat="server" ID="ucPager" PageSize="10" CurrentPage="1" TotalSize="10" Url="OutputCSV.aspx"/>
+    <uc1:ucPager runat="server" ID="ucPager" PageSize="10" CurrentPage="1" TotalSize="10" Url="OutputCSV.aspx"/></br>
+    <asp:Button ID="return_btn" runat="server" Text="返回" OnClick="return_btn_Click" />
 </asp:Content>

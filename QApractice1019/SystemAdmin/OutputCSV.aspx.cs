@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -47,10 +48,17 @@ namespace QApractice1019.SystemAdmin
         {
             string qaidtxt = this.Request.QueryString["ID"].ToString();
             int qaid = int.Parse(qaidtxt);
-            string filepath = $@"D:\Practice\QApractice1019\QApractice1019\QA_answerData{qaidtxt}_{DateTime.Now.ToString()}.csv";
+            string filepath = $@"D:\Practice\QApractice1019\QApractice1019\QA_answerData_{qaidtxt}_{DateTime.Now.ToString("yyyy_MM_dd")}.csv";
 
             var list = RespondentInfoManager.GetAllResponsesbyQAID(qaid);
             CSVGenerator<All_Answer_View>(true, filepath, list);
+
+            this.ltl_Msg.Visible = true;
+            this.ltl_Msg.Text = "<span style='color:red'>已輸出到路徑</span>";
+        }
+        protected void return_btn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("QAList.aspx");
         }
 
         private int GetCurrentPage()
@@ -73,7 +81,7 @@ namespace QApractice1019.SystemAdmin
         }
         void CSVGenerator<T>(bool genColumn, string FilePath, List<T> data)
         {
-            using (var file = new StreamWriter(FilePath))
+            using (var file = new StreamWriter(FilePath, true, Encoding.UTF8))
             {
                 Type t = typeof(T);
                 PropertyInfo[] propInfos = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);

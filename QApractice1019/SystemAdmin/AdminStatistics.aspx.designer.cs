@@ -11,53 +11,35 @@ namespace QApractice1019.SystemAdmin
 {
 
 
-    public partial class OutputCSV
+    public partial class AdminStatistics
     {
 
         /// <summary>
-        /// output_btn 控制項。
+        /// ltl_QAtitle 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button output_btn;
+        protected global::System.Web.UI.WebControls.Literal ltl_QAtitle;
 
         /// <summary>
-        /// ltl_Msg 控制項。
+        /// ph_question 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltl_Msg;
+        protected global::System.Web.UI.WebControls.PlaceHolder ph_question;
 
         /// <summary>
-        /// gv_QAList 控制項。
+        /// ltlMsg 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv_QAList;
-
-        /// <summary>
-        /// ltl_NoData 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltl_NoData;
-
-        /// <summary>
-        /// ucPager 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::QApractice1019.UserControls.ucPager ucPager;
+        protected global::System.Web.UI.WebControls.Literal ltlMsg;
 
         /// <summary>
         /// return_btn 控制項。

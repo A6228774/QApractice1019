@@ -24,5 +24,68 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static List<Respondent_answer> CountRBanswer(int qaid, int qid, string ans)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Respondent_answer
+                         where item.QAID == qaid && item.QuestionID == qid && item.Answer == ans
+                         select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
+        public static List<Respondent_answer> CountCBanswer(int qaid, int qid, string ans)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Respondent_answer
+                         where item.QAID == qaid && item.QuestionID == qid && item.Answer.Contains(ans)
+                         select item);
+
+                    var list = query.ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
+        public static int CountTotalanswerbyQAID(int qaid, int qid)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Respondent_answer
+                         where item.QAID == qaid && item.QuestionID == qid
+                         select item);
+
+                    int cnt = query.Count();
+                    return cnt;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return 0;
+            }
+        }
     }
 }
