@@ -110,11 +110,7 @@ namespace QApractice1019
         }
         protected void clear_btn_Click(object sender, EventArgs e)
         {
-            this.start_d.Text = string.Empty;
-            this.end_d.Text = string.Empty;
-            this.tbx_keyword.Text = string.Empty;
-
-            Response.Redirect("Index.aspx");
+            Response.Redirect(Request.RawUrl);
         }
         protected void gv_QAList_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
