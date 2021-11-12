@@ -35,7 +35,7 @@ namespace QApractice1019
                 }
                 else
                 {
-                    if(this.Session["return_info"] != null && this.Session["return_answer"] != null)
+                    if (this.Session["return_info"] != null && this.Session["return_answer"] != null)
                     {
                         RespondentInfo info = new RespondentInfo();
                         info = (RespondentInfo)HttpContext.Current.Session["QA_respodent"];
@@ -52,11 +52,20 @@ namespace QApractice1019
                             Panel pnl_question = new Panel();
                             int qid = int.Parse(item.QID.ToString());
                             var question = QuestionsManager.GetQuestionDetail(qid);
+                            bool mustkey = QAsManager.CheckMustkey(qaid, qid);
+
+                            Label mustltl = new Label();
+                            if (mustkey)
+                            {
+                                mustltl.Text = "<span style='color:red'>必填</span>";
+                                pnl_question.Controls.Add(mustltl);
+                            }
 
                             if (item.Type == "TB")
                             {
                                 Literal title = new Literal();
                                 title.Text = item.Title + "</br>";
+
                                 TextBox tbx_ans = new TextBox();
                                 tbx_ans.ID = "tbx_ans" + item.QID;
                                 tbx_ans.Text = item.Answer;
@@ -114,57 +123,64 @@ namespace QApractice1019
                     }
                     else
                     {
-                    foreach (var item in qadesign)
-                    {
-                        Panel pnl_question = new Panel();
-                        int qid = int.Parse(item.QuestionID.ToString());
-
-                        var question = QuestionsManager.GetQuestionDetail(qid);
-
-                        if (question.QuestionType.ToString() == "TB")
+                        foreach (var item in qadesign)
                         {
-                            Literal title = new Literal();
-                            title.Text = question.QuestionTitle + "</br>";
-                            TextBox tbx_ans = new TextBox();
-                            tbx_ans.ID = "tbx_ans" + item.QuestionID;
+                            Panel pnl_question = new Panel();
+                            int qid = int.Parse(item.QuestionID.ToString());
+
+                            var question = QuestionsManager.GetQuestionDetail(qid);
+                            bool mustkey = QAsManager.CheckMustkey(qaid, qid);
+
+                            Label mustltl = new Label();
+                            if (mustkey)
+                            {
+                                mustltl.Text = "<span style='color:red'>必填</span>";
+                                pnl_question.Controls.Add(mustltl);
+                            }
+
+                            if (question.QuestionType.ToString() == "TB")
+                            {
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle + "</br>";
+                                TextBox tbx_ans = new TextBox();
+                                tbx_ans.ID = "tbx_ans" + item.QuestionID;
 
 
-                            pnl_question.Controls.Add(title);
-                            pnl_question.Controls.Add(tbx_ans);
-                            this.pn_allquestions.Controls.Add(pnl_question);
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(tbx_ans);
+                                this.pn_allquestions.Controls.Add(pnl_question);
+                            }
+                            else if (question.QuestionType.ToString() == "RB")
+                            {
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle + "</br>";
+                                RadioButtonList rb_ans = new RadioButtonList();
+                                rb_ans.ID = "rb_ans" + item.QuestionID;
+
+                                List<string> list = Getchoicelist(question);
+                                rb_ans.DataSource = list;
+                                rb_ans.DataBind();
+
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(rb_ans);
+                                this.pn_allquestions.Controls.Add(pnl_question);
+                            }
+                            else if (question.QuestionType.ToString() == "CB")
+                            {
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle + "</br>";
+                                CheckBoxList cbx_ans = new CheckBoxList();
+                                cbx_ans.ID = "cbx_ans" + item.QuestionID;
+
+                                List<string> list = Getchoicelist(question);
+                                cbx_ans.DataSource = list;
+                                cbx_ans.DataBind();
+
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(cbx_ans);
+                                this.pn_allquestions.Controls.Add(pnl_question);
+                            }
                         }
-                        else if (question.QuestionType.ToString() == "RB")
-                        {
-                            Literal title = new Literal();
-                            title.Text = question.QuestionTitle + "</br>";
-                            RadioButtonList rb_ans = new RadioButtonList();
-                            rb_ans.ID = "rb_ans" + item.QuestionID;
-
-                            List<string> list = Getchoicelist(question);
-                            rb_ans.DataSource = list;
-                            rb_ans.DataBind();
-
-                            pnl_question.Controls.Add(title);
-                            pnl_question.Controls.Add(rb_ans);
-                            this.pn_allquestions.Controls.Add(pnl_question);
-                        }
-                        else if (question.QuestionType.ToString() == "CB")
-                        {
-                            Literal title = new Literal();
-                            title.Text = question.QuestionTitle + "</br>";
-                            CheckBoxList cbx_ans = new CheckBoxList();
-                            cbx_ans.ID = "cbx_ans" + item.QuestionID;
-
-                            List<string> list = Getchoicelist(question);
-                            cbx_ans.DataSource = list;
-                            cbx_ans.DataBind();
-
-                            pnl_question.Controls.Add(title);
-                            pnl_question.Controls.Add(cbx_ans);
-                            this.pn_allquestions.Controls.Add(pnl_question);
-                        }
-                    }
-
                     }
                 }
             }
@@ -221,7 +237,7 @@ namespace QApractice1019
                             {
                                 if (txtbox.Text == string.Empty && QAsManager.CheckMustkey(qaid, qid))
                                 {
-                                    this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                    this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                     return;
                                 }
                                 else
@@ -242,7 +258,7 @@ namespace QApractice1019
                             {
                                 if (QAsManager.CheckMustkey(qaid, qid) && (rblist.SelectedValue == null))
                                 {
-                                    this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                    this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                     return;
                                 }
                                 else
@@ -269,9 +285,9 @@ namespace QApractice1019
                                         resp.Answer = string.Join(";", anslist);
                                     }
                                 }
-                                if(resp.Answer == string.Empty && QAsManager.CheckMustkey(qaid, qid))
+                                if (resp.Answer == string.Empty && QAsManager.CheckMustkey(qaid, qid))
                                 {
-                                    this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                    this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                     return;
                                 }
                             }
@@ -316,7 +332,7 @@ namespace QApractice1019
                         {
                             if (txtbox.Text == string.Empty && QAsManager.CheckMustkey(qaid, qid))
                             {
-                                this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                 return;
                             }
                             else
@@ -337,7 +353,7 @@ namespace QApractice1019
                         {
                             if (QAsManager.CheckMustkey(qaid, qid) && (rblist.SelectedValue == null))
                             {
-                                this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                 return;
                             }
                             else
@@ -366,7 +382,7 @@ namespace QApractice1019
                             }
                             if (resp.Answer == string.Empty && QAsManager.CheckMustkey(qaid, qid))
                             {
-                                this.ltlMsg.Text = "<span style='color:red'>此項目為必填</span>";
+                                this.ltlMsg.Text += $"<span style='color:red'>題目：{q.QuestionTitle}。項目為必填</span>";
                                 return;
                             }
                         }
@@ -462,6 +478,5 @@ namespace QApractice1019
 
             return list;
         }
-
     }
 }

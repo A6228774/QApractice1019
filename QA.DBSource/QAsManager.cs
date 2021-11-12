@@ -57,7 +57,7 @@ namespace QA.DBSource
                     DateTime newend_d = end_t.AddDays(1);
 
                     var query = (from item in context.QAInfo
-                                 where item.EndDate <= newend_d && item.StartDate >= start_t
+                                 where item.StartDate <= newend_d && item.StartDate >= start_t
                                  select item);
 
                     var list = query.ToList();
