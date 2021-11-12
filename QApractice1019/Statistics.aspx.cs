@@ -2,8 +2,12 @@
 using QA.ORM.DBModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
 using System.Web.UI.WebControls;
@@ -12,6 +16,12 @@ namespace QApractice1019
 {
     public partial class Statistics : System.Web.UI.Page
     {
+        public class ChartData
+        {
+            public string Choice { get; set; }
+            public int Cnt { get; set; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (this.Request.QueryString["ID"] != null)
@@ -27,6 +37,8 @@ namespace QApractice1019
                 {
                     Panel pnl_question = new Panel();
                     int qid = int.Parse(item.QuestionID.ToString());
+                    Literal linebreak = new Literal();
+                    linebreak.Text = "<br/>";
 
                     var question = QuestionsManager.GetQuestionDetail(qid);
 
@@ -34,31 +46,84 @@ namespace QApractice1019
                     {
                         Literal title = new Literal();
                         title.Text = question.QuestionTitle + "</br>";
-                        //rb_ans.ID = "rb_ans" + item.QuestionID;
+                        pnl_question.Controls.Add(title);
 
                         List<string> list = Getchoicelist(question);
 
-                        pnl_question.Controls.Add(title);
+                        DataTable chartdt = new DataTable();
+                        chartdt.Columns.Add(new DataColumn("Choicetxt", typeof(string)));
+                        chartdt.Columns.Add(new DataColumn("Cnt", typeof(int)));
+
+                        foreach (string li in list)
+                        {
+                            Literal choice = new Literal();
+                            choice.Text = li + "：";
+
+                            var dt = AnswerManager.CountRBanswer(qaid, qid, li);
+                            Literal cnt = new Literal();
+                            cnt.Text = $"({dt.Count().ToString()})" + "</br>";
+
+                            pnl_question.Controls.Add(choice);
+                            pnl_question.Controls.Add(cnt);
+                            chartdt.Rows.Add(li, dt.Count());
+                        }
+                        Chart chart = DrawPieChart(chartdt, title.Text);
+
+                        this.ph_question.Controls.Add(chart);
                         this.ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(linebreak);
                     }
                     else if (question.QuestionType.ToString() == "CB")
                     {
                         Literal title = new Literal();
                         title.Text = question.QuestionTitle + "</br>";
-                        //cbx_ans.ID = "cbx_ans" + item.QuestionID;
+                        pnl_question.Controls.Add(title);
 
                         List<string> list = Getchoicelist(question);
 
+                        DataTable chartdt = new DataTable();
+                        chartdt.Columns.Add(new DataColumn("Choicetxt", typeof(string)));
+                        chartdt.Columns.Add(new DataColumn("Cnt", typeof(int)));
+
+                        foreach (string li in list)
+                        {
+                            Literal choice = new Literal();
+                            choice.Text = li + "：";
+
+                            var dt = AnswerManager.CountCBanswer(qaid, qid, li);
+                            Literal cnt = new Literal();
+                            cnt.Text = $"({dt.Count().ToString()})</br>";
+
+                            pnl_question.Controls.Add(choice);
+                            pnl_question.Controls.Add(cnt);
+                            chartdt.Rows.Add(li, dt.Count());
+                        }
+                        Chart chart = DrawPieChart(chartdt, title.Text);
+
+                        this.ph_question.Controls.Add(chart);
+                        this.ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(linebreak);
+                    }
+                    else
+                    {
+                        Literal title = new Literal();
+                        title.Text = question.QuestionTitle + "</br>" + "<span style='color:red'>文字方塊不作統計</span>" + "</br></br>";
                         pnl_question.Controls.Add(title);
                         this.ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(linebreak);
                     }
                 }
             }
             else
             {
-                Response.Redirect("index.aspx");
+                Response.Redirect("Index.aspx");
             }
         }
+        protected void return_btn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Index.aspx");
+        }
+
         private static List<string> Getchoicelist(QuestionsTable question)
         {
             int cid = int.Parse(question.ChoiceID.ToString());
@@ -107,6 +172,30 @@ namespace QApractice1019
             }
 
             return list;
+        }
+        private Chart DrawPieChart(DataTable dt, string title)
+        {
+            Chart chart = new Chart();
+            chart.DataSource = dt;
+
+            chart.Series.Add(new Series("SeriesName"));
+            chart.Series["SeriesName"].ChartType = SeriesChartType.Pie;
+            chart.Series["SeriesName"].XValueMember = "Choicetxt";
+            chart.Series["SeriesName"].YValueMembers = "Cnt";
+            chart.Series["SeriesName"].Label = "#PERCENT{P2}";
+            chart.Series["SeriesName"].LegendText = "#VALX";
+            chart.Series["SeriesName"].LabelForeColor = Color.White;
+
+            chart.Legends.Add(new Legend("LegendName"));
+            chart.Legends["LegendName"].LegendStyle = LegendStyle.Column;
+            chart.Legends["LegendName"].Docking = Docking.Right;
+            chart.Legends["LegendName"].Alignment = System.Drawing.StringAlignment.Center;
+
+            chart.ChartAreas.Add(new ChartArea("ChartName"));
+            chart.ChartAreas["ChartName"].AxisX.Title = title;
+
+            chart.DataBind();
+            return chart;
         }
     }
 }

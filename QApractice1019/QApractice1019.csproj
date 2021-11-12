@@ -60,6 +60,9 @@
       <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -105,7 +108,9 @@
     <Content Include="Index.aspx" />
     <Content Include="QAConfirmPage.aspx" />
     <Content Include="QAForm.aspx" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Statistics.aspx" />
+    <Content Include="SystemAdmin\AdminStatistics.aspx" />
     <Content Include="SystemAdmin\AnswerDetail.aspx" />
     <Content Include="SystemAdmin\OutputCSV.aspx" />
     <Content Include="SystemAdmin\QAFormDesign.aspx" />
@@ -155,6 +160,13 @@
     </Compile>
     <Compile Include="SystemAdmin\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SystemAdmin\AdminStatistics.aspx.cs">
+      <DependentUpon>AdminStatistics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\AdminStatistics.aspx.designer.cs">
+      <DependentUpon>AdminStatistics.aspx</DependentUpon>
     </Compile>
     <Compile Include="SystemAdmin\AnswerDetail.aspx.cs">
       <DependentUpon>AnswerDetail.aspx</DependentUpon>
