@@ -35,72 +35,88 @@ namespace QApractice1019.SystemAdmin
                 this.ltl_phone.Text = respodentinfo.Phone;
                 this.ltl_age.Text = respodentinfo.Age.ToString();
 
-                foreach (var item in qadesign)
+                if (qadesign.Count == 0)
                 {
-                    Panel pnl_question = new Panel();
-                    int qid = int.Parse(item.QuestionID.ToString());
-
-                    var question = QuestionsManager.GetQuestionDetail(qid);
-                    var answer = RespondentInfoManager.GetRespodent_question_answer(respodentid, qaid, qid);
-
-                    if (question.QuestionType.ToString() == "TB")
+                    this.ltlMsg.Visible = true;
+                    this.ltlMsg.Text = "<span style='color:red'>部份回答資料已變更或遺失</span>";
+                }
+                else
+                {
+                    foreach (var item in qadesign)
                     {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        TextBox tbx_ans = new TextBox();
-                        tbx_ans.ID = "tbx_ans" + item.QuestionID;
-                        tbx_ans.Enabled = false;
-                        tbx_ans.Text = answer.Answer;
+                        Panel pnl_question = new Panel();
+                        int qid = int.Parse(item.QuestionID.ToString());
 
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(tbx_ans);
-                        ph_question.Controls.Add(pnl_question);
-                    }
-                    else if (question.QuestionType.ToString() == "RB")
-                    {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        RadioButtonList rb_ans = new RadioButtonList();
-                        rb_ans.ID = "rb_ans" + item.QuestionID;
-                        rb_ans.Enabled = false;
+                        var question = QuestionsManager.GetQuestionDetail(qid);
+                        var answer = RespondentInfoManager.GetRespodent_question_answer(respodentid, qaid, qid);
 
-                        List<string> list = Getchoicelist(question);
-                        rb_ans.DataSource = list;
-                        rb_ans.DataBind();
-
-                        rb_ans.SelectedValue = answer.Answer;
-
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(rb_ans);
-                        ph_question.Controls.Add(pnl_question);
-                    }
-                    else if (question.QuestionType.ToString() == "CB")
-                    {
-                        Literal title = new Literal();
-                        title.Text = question.QuestionTitle;
-                        CheckBoxList cbx_ans = new CheckBoxList();
-                        cbx_ans.ID = "cbx_ans" + item.QuestionID;
-                        cbx_ans.Enabled = false;
-
-                        string answertxt = answer.Answer;
-                        char sperator = char.Parse(";");
-                        string[] answer_choice = answertxt.Split(sperator);
-
-                        List<string> list = Getchoicelist(question);
-                        cbx_ans.DataSource = list;
-                        cbx_ans.DataBind();
-
-                        foreach (var c in answer_choice)
+                        if (answer == null)
                         {
-                            if (c != "")
+                            this.ltlMsg.Visible = true;
+                            this.ltlMsg.Text = "<span style='color:red'>部份回答資料已變更或遺失</span>";
+                        }
+                        else
+                        {
+                            if (question.QuestionType.ToString() == "TB")
                             {
-                                cbx_ans.Items.FindByValue(c).Selected = true;
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle;
+                                TextBox tbx_ans = new TextBox();
+                                tbx_ans.ID = "tbx_ans" + item.QuestionID;
+                                tbx_ans.Enabled = false;
+                                tbx_ans.Text = answer.Answer;
+
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(tbx_ans);
+                                ph_question.Controls.Add(pnl_question);
+                            }
+                            else if (question.QuestionType.ToString() == "RB")
+                            {
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle;
+                                RadioButtonList rb_ans = new RadioButtonList();
+                                rb_ans.ID = "rb_ans" + item.QuestionID;
+                                rb_ans.Enabled = false;
+
+                                List<string> list = Getchoicelist(question);
+                                rb_ans.DataSource = list;
+                                rb_ans.DataBind();
+
+                                rb_ans.SelectedValue = answer.Answer;
+
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(rb_ans);
+                                ph_question.Controls.Add(pnl_question);
+                            }
+                            else if (question.QuestionType.ToString() == "CB")
+                            {
+                                Literal title = new Literal();
+                                title.Text = question.QuestionTitle;
+                                CheckBoxList cbx_ans = new CheckBoxList();
+                                cbx_ans.ID = "cbx_ans" + item.QuestionID;
+                                cbx_ans.Enabled = false;
+
+                                string answertxt = answer.Answer;
+                                char sperator = char.Parse(";");
+                                string[] answer_choice = answertxt.Split(sperator);
+
+                                List<string> list = Getchoicelist(question);
+                                cbx_ans.DataSource = list;
+                                cbx_ans.DataBind();
+
+                                foreach (var c in answer_choice)
+                                {
+                                    if (c != "")
+                                    {
+                                        cbx_ans.Items.FindByValue(c).Selected = true;
+                                    }
+                                }
+
+                                pnl_question.Controls.Add(title);
+                                pnl_question.Controls.Add(cbx_ans);
+                                ph_question.Controls.Add(pnl_question);
                             }
                         }
-
-                        pnl_question.Controls.Add(title);
-                        pnl_question.Controls.Add(cbx_ans);
-                        ph_question.Controls.Add(pnl_question);
                     }
                 }
             }

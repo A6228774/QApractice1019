@@ -33,6 +33,7 @@
             </tr>
         </table>
     </asp:Panel>
+    <asp:Literal ID="ltlMsg" runat="server" Visible="False"></asp:Literal></br>
     <asp:PlaceHolder ID="ph_question" runat="server"></asp:PlaceHolder></br>
     <asp:Button ID="return_btn" runat="server" Text="返回" OnClick="return_btn_Click" />
 </asp:Content>
