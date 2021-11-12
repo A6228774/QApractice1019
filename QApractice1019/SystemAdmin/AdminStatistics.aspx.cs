@@ -105,7 +105,7 @@ namespace QApractice1019.SystemAdmin
             }
             else
             {
-                Response.Redirect("index.aspx");
+                Response.Redirect("QAList.aspx");
             }
         }
         protected void return_btn_Click(object sender, EventArgs e)
