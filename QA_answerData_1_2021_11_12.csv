@@ -1,0 +1,8 @@
+﻿AnswerDate,RID,RespondentID,Name,QAID,QuestionID,ChoiceID,Answer
+2021/11/12 00:00:00,20,52d6ca8c-7d14-461e-ae02-504f31f1aac2,李四,1,11,19,男
+2021/11/12 00:00:00,20,52d6ca8c-7d14-461e-ae02-504f31f1aac2,李四,1,9,,Smooth Crime
+2021/11/12 00:00:00,20,52d6ca8c-7d14-461e-ae02-504f31f1aac2,李四,1,1014,21,否
+2021/11/12 00:00:00,20,52d6ca8c-7d14-461e-ae02-504f31f1aac2,李四,1,1,,The Beatles
+2021/11/11 00:00:00,19,bd400a29-ba4f-4e56-b94c-78bc872d623e,Alice,1,11,19,女
+2021/11/11 00:00:00,19,bd400a29-ba4f-4e56-b94c-78bc872d623e,Alice,1,1014,21,是
+2021/11/11 00:00:00,19,bd400a29-ba4f-4e56-b94c-78bc872d623e,Alice,1,1,,貝多芬
