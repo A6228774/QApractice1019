@@ -27,22 +27,6 @@ namespace QApractice1019
                 this.gv_QAList.DataSource = dt;
                 this.gv_QAList.DataBind();
 
-                //if (dt.Rows.Count > 0)  // 檢查有無資料
-                //{
-                //    var pagedList = this.GetPagedDataTable(dt);
-                //
-                //    this.gv_QAList.DataSource = pagedList;
-                //    this.gv_QAList.DataBind();
-                //
-                //    this.ucPager.TotalSize = list.Count();
-                //    this.ucPager.Bind();
-                //}
-                //else
-                //{
-                //    this.gv_QAList.Visible = false;
-                //    this.ltl_NoData.Visible = true;
-                //}
-
                 foreach (GridViewRow gvrow in this.gv_QAList.Rows)
                 {
                     if (gvrow.Cells[2].Text != "開放中")
@@ -132,6 +116,28 @@ namespace QApractice1019
 
             Response.Redirect("Index.aspx");
         }
+        protected void gv_QAList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            this.gv_QAList.PageIndex = e.NewPageIndex;
+            DateTime today = DateTime.Now;
+
+            List<QAInfo> list = new List<QAInfo>();
+            list = QAsManager.GetQAList();
+
+            DataTable dt = GridViewDataBind(today, list);
+
+            this.gv_QAList.DataSource = dt;
+            this.gv_QAList.DataBind();
+
+            foreach (GridViewRow gvrow in this.gv_QAList.Rows)
+            {
+                if (gvrow.Cells[2].Text != "開放中")
+                {
+                    HyperLink link = (HyperLink)gvrow.Cells[1].FindControl("qalink");
+                    link.Enabled = false;
+                }
+            }
+        }
 
         private static DataTable GridViewDataBind(DateTime today, List<QAInfo> list)
         {
@@ -165,24 +171,6 @@ namespace QApractice1019
             }
 
             return dt;
-        }
-        private int GetCurrentPage()
-        {
-            string pageText = Request.QueryString["Page"];
-
-            if (string.IsNullOrWhiteSpace(pageText))
-                return 1;
-            int intPage;
-            if (!int.TryParse(pageText, out intPage))
-                return 1;
-            if (intPage <= 0)
-                return 1;
-            return intPage;
-        }
-        private List<DataTable> GetPagedDataTable(List<DataTable> dt)
-        {
-            int startIndex = (this.GetCurrentPage() - 1) * 10;
-            return dt.AsEnumerable().Skip(startIndex).Take(10).ToList();
         }
     }
 }
