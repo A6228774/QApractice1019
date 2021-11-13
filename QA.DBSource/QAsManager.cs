@@ -54,7 +54,7 @@ namespace QA.DBSource
             {
                 try
                 {
-                    DateTime newend_d = end_t.AddDays(1);
+                    DateTime newend_d = end_t.AddHours(23).AddMinutes(59).AddSeconds(59);
 
                     var query = (from item in context.QAInfo
                                  where (item.StartDate <= newend_d && item.StartDate >= start_t) && (item.EndDate <= newend_d && item.EndDate >= start_t) || item.EndDate == null
