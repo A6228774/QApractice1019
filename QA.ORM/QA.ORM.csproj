@@ -61,6 +61,7 @@
     <Compile Include="DBModels\RespondentInfo.cs" />
     <Compile Include="DBModels\Respondent_answer.cs" />
     <Compile Include="DBModels\ResponseTable.cs" />
+    <Compile Include="DBModels\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

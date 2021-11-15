@@ -8,7 +8,7 @@ namespace QA.ORM.DBModels
     public partial class ContextModel : DbContext
     {
         public ContextModel()
-            : base("name=DefaultConnectionString")
+            : base("name=DefaultConnecitonString")
         {
         }
 
@@ -19,6 +19,7 @@ namespace QA.ORM.DBModels
         public virtual DbSet<ResponseTable> ResponseTable { get; set; }
         public virtual DbSet<QA_Question> QA_Question { get; set; }
         public virtual DbSet<Respondent_answer> Respondent_answer { get; set; }
+        public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<All_Answer_View> All_Answer_View { get; set; }
         public virtual DbSet<CSVOutput_View> CSVOutput_View { get; set; }
         public virtual DbSet<QA_Question_View> QA_Question_View { get; set; }
@@ -59,6 +60,14 @@ namespace QA.ORM.DBModels
                 .HasMany(e => e.Respondent_answer)
                 .WithRequired(e => e.ResponseTable)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UserInfo>()
+                .Property(e => e.Account)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UserInfo>()
+                .Property(e => e.Password)
+                .IsUnicode(false);
         }
     }
 }
