@@ -19,7 +19,7 @@ namespace QApractice1019.SystemAdmin
         {
             if (!AuthManager.Islogined())
             {
-                Response.Redirect("/Index.aspx");
+                Response.Redirect("QAList.aspx");
                 return;
             }
 
