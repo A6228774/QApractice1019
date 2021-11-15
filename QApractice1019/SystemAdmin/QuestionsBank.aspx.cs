@@ -1,4 +1,5 @@
-﻿using QA.DBSource;
+﻿using QA.Auth;
+using QA.DBSource;
 using QA.ORM.DBModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!AuthManager.Islogined())
+            {
+                Response.Redirect("/Index.aspx");
+                return;
+            }
+
             var list = QuestionsManager.GetQuestionsList();
 
             if (list.Count > 0)  // 檢查有無資料

@@ -1,4 +1,5 @@
-﻿using QA.DBSource;
+﻿using QA.Auth;
+using QA.DBSource;
 using QA.ORM.DBModels;
 using System;
 using System.Collections;
@@ -15,6 +16,12 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!AuthManager.Islogined())
+            {
+                Response.Redirect("/Index.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 if (this.Request.QueryString["ID"] == null)

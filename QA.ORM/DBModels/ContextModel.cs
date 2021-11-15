@@ -8,7 +8,7 @@ namespace QA.ORM.DBModels
     public partial class ContextModel : DbContext
     {
         public ContextModel()
-            : base("name=DefaultConnecitonString")
+            : base("name=DefaultConnectionString")
         {
         }
 

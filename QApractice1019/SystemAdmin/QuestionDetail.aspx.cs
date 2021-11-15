@@ -1,4 +1,5 @@
-﻿using QA.DBSource;
+﻿using QA.Auth;
+using QA.DBSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!AuthManager.Islogined())
+            {
+                Response.Redirect("/Index.aspx");
+                return;
+            }
+
+            if (!IsPostBack)
             {
                 if (this.Request.QueryString["QID"] == null)
                 {

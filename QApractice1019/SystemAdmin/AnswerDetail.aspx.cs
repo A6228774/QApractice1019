@@ -1,4 +1,5 @@
-﻿using QA.DBSource;
+﻿using QA.Auth;
+using QA.DBSource;
 using QA.ORM.DBModels;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,12 @@ namespace QApractice1019.SystemAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!AuthManager.Islogined())
+            {
+                Response.Redirect("/Index.aspx");
+                return;
+            }
+
             if (this.Request.QueryString["QAID"] == null || this.Request.QueryString["ID"] == null)
             {
                 Response.Redirect("QAList.aspx");
