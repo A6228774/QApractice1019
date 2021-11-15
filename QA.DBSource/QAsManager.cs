@@ -105,6 +105,33 @@ namespace QA.DBSource
                 Logger.WriteLog(ex);
             }
         }
+        public static bool UpdateQAInfo(int qaid, QAInfo QAInfo)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var obj = context.QAInfo.Where(o => o.QAID == qaid).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        obj.Title = QAInfo.Title;
+                        obj.Summary = QAInfo.Summary;
+                        obj.StartDate = QAInfo.StartDate;
+                        obj.EndDate = QAInfo.EndDate;
+                        obj.IsEnabled = QAInfo.IsEnabled;
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
+            }
+        }
         public static List<QA_Question> GetQAForm(int qaid)
         {
             using (ContextModel context = new ContextModel())

@@ -134,6 +134,10 @@ namespace QApractice1019
                 }
             }
         }
+        protected void login_btn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx");
+        }
 
         private static DataTable GridViewDataBind(DateTime today, List<QAInfo> list)
         {
