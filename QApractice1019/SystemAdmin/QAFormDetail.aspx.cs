@@ -74,13 +74,14 @@ namespace QApractice1019.SystemAdmin
             if (this.Request.QueryString["ID"] != null)
             {
                 string qaidtxt = this.Request.QueryString["ID"];
+                int qaid = int.Parse(qaidtxt);
                 Response.Redirect("QAFormDesign.aspx?ID=" + qaidtxt);
+                QAsManager.UpdateQAInfo(qaid, temp);
             }
             else
             {
                 QAsManager.CreateQAInfo(temp);
                 Response.Redirect("QAFormDesign.aspx?ID=" + temp.QAID);
-
             }
         }
 

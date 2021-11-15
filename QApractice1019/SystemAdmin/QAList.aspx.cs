@@ -143,6 +143,11 @@ namespace QApractice1019.SystemAdmin
         {
             Response.Redirect(Request.RawUrl);
         }
+        protected void logout_btn_Click(object sender, EventArgs e)
+        {
+            HttpContext.Current.Session.Clear();
+            Response.Redirect("../Index.aspx");
+                }
 
         private int GetCurrentPage()
         {

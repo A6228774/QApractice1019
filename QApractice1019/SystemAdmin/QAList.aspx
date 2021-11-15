@@ -70,5 +70,6 @@
         </asp:GridView>
         <asp:Literal ID="ltl_NoData" runat="server" Text="沒有任何問卷" Visible="False"></asp:Literal>
         <uc1:ucPager runat="server" ID="ucPager" PageSize="10" CurrentPage="1" TotalSize="10" Url="QAList.aspx" />
+        <asp:Button ID="logout_btn" runat="server" Text="登出" align="right" OnClick="logout_btn_Click"/>
     </div>
 </asp:Content>
