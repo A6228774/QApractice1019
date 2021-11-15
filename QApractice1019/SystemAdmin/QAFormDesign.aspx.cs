@@ -488,6 +488,11 @@ namespace QApractice1019.SystemAdmin
                         this.choice_txb.Text = choices;
                         this.choice_txb.Enabled = true;
                     }
+                    else
+                    {
+                        this.choice_txb.Text = string.Empty;
+                        this.choice_txb.Enabled = false;
+                    }
                     HttpContext.Current.Session["TempQchange"] = detail;
                 }
             }
@@ -514,7 +519,6 @@ namespace QApractice1019.SystemAdmin
                 }
                 Response.Redirect(Request.RawUrl);
             }
-
         }
     }
 }

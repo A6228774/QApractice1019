@@ -70,7 +70,7 @@
             <asp:CheckBoxField HeaderText="必填" ReadOnly="True" DataField="MustKey" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:Button ID="edit_btn" runat="server" Text="編輯" CommandName="Q_edit" CommandArgument="<%# Container.DataItemIndex %>"/>                
+                    <asp:Button ID="edit_btn" runat="server" Text="編輯" CommandName="Q_edit" CommandArgument="<%# Container.DataItemIndex %>" PostBackUrl="~/SystemAdmin/QAFormDesign.aspx"/>                
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField>
