@@ -11,6 +11,16 @@
     <title></title>
 </head>
 <body>
+    <h2>簡易問卷大全 - 後台</h2>
+    <table>
+        <tr>
+            <td>
+                <ul style="list-style-type: none">
+                    <li><a href="QAList.aspx">問卷管理</a></li>
+                    <li><a href="QuestionsBank.aspx">常用問題庫</a></li>
+                </ul>
+            </td>
+            <td>
     <form id="form1" runat="server">
         <asp:Menu runat="server" Orientation="Horizontal" StaticEnableDefaultPopOutImage="false" OnMenuItemClick="Unnamed_MenuItemClick" RenderingMode="Table" ID="tab_menu">
             <Items>
@@ -203,5 +213,8 @@
             </asp:View>
         </asp:MultiView>
     </form>
+
+            </td>
+            </table>
 </body>
 </html>

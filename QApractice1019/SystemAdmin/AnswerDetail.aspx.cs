@@ -133,7 +133,7 @@ namespace QApractice1019.SystemAdmin
             string qaidtxt = this.Request.QueryString["QAID"].ToString();
             int qaid = int.Parse(qaidtxt);
 
-            Response.Redirect("OutputCSV.aspx?ID=" + qaid);
+            Response.Redirect("TestTab.aspx?ID=" + qaid);
         }
 
         private static List<string> Getchoicelist(QuestionsTable question)

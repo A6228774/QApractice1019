@@ -37,7 +37,7 @@
                 <asp:BoundField HeaderText="#" DataField="QAID" />
                 <asp:TemplateField HeaderText="問卷">
                     <ItemTemplate>
-                        <a href="QAFormDetail.aspx?ID=<%# Eval("QAID") %>"><%# Eval("Title") %></a>
+                        <a href="TestTab.aspx?ID=<%# Eval("QAID") %>"><%# Eval("Title") %></a>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="狀態">
