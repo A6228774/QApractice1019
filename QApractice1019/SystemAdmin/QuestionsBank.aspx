@@ -19,7 +19,7 @@
                     </asp:DropDownList>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="詳細設定">
+            <asp:TemplateField HeaderText="常用設定">
                 <ItemTemplate>
                     <a href="QuestionDetail.aspx?QID=<%# Eval("QuestionID") %>">前往
                     </a>
