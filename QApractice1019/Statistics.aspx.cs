@@ -69,8 +69,8 @@ namespace QApractice1019
                         }
                         Chart chart = DrawPieChart(chartdt, title.Text);
 
-                        this.ph_question.Controls.Add(chart);
                         this.ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(chart);
                         this.ph_question.Controls.Add(linebreak);
                     }
                     else if (question.QuestionType.ToString() == "CB")
@@ -100,8 +100,8 @@ namespace QApractice1019
                         }
                         Chart chart = DrawPieChart(chartdt, title.Text);
 
-                        this.ph_question.Controls.Add(chart);
                         this.ph_question.Controls.Add(pnl_question);
+                        this.ph_question.Controls.Add(chart);
                         this.ph_question.Controls.Add(linebreak);
                     }
                     else
